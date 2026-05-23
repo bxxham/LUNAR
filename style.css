@@ -1,0 +1,835 @@
+body {
+    font-family: 'Georgia', serif; /* Gives it that luxury hotel feel */
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+}
+
+header {
+    background-color: #1a1a1a; /* Dark, sleek header */
+    color: gold;
+    padding: 20px;
+}
+
+button {
+    background-color: gold;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.header-auth-buttons button + button {
+    margin-left: 10px;
+}
+
+/* Container for the tabs */
+.tab-container {
+    overflow: hidden;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+}
+
+/* Style the buttons inside the tab bar */
+.tab-link {
+    background-color: inherit;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change color on hover */
+.tab-link:hover {
+    background-color: #555;
+}
+
+/* Create an active/current tablink class */
+.tab-link.active {
+    background-color: gold;
+    color: black;
+}
+
+/* Hide the tab content by default */
+.tab-content {
+    display: none;
+    padding: 20px;
+    border-top: none;
+    animation: fadeEffect 1s; /* Adds a smooth fade-in */
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Menu Header Styling */
+.menu-header {
+    margin-bottom: 30px;
+}
+
+.menu-section h4 {
+    border-bottom: 2px solid gold;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    color: #1a1a1a;
+}
+
+/* The Grid Layout */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Individual Menu Item "Cards" */
+.menu-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.item-name {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.item-price {
+    float: right;
+    color: #b8860b; /* A dark gold color */
+    font-weight: bold;
+}
+
+.item-desc {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Reservation Button */
+/* Container to keep buttons side-by-side */
+.button-group {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap; /* This ensures they stack nicely on small phone screens */
+}
+
+.reserve-btn {
+    background-color: #1a1a1a;
+    color: gold;
+    padding: 12px 25px;
+    font-size: 0.9rem;
+    border: 2px solid #1a1a1a;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.reserve-btn:hover {
+    background-color: gold;
+    color: black;
+    border-color: gold;
+}
+
+/* Optional: Make the "Full Amount" button stand out slightly */
+.btn-highlight {
+    background-color: #b8860b; 
+    border-color: #b8860b;
+    color: white;
+}
+
+/* Bar specific layout */
+.bar-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background-color: #111; /* Darker background for the bar section */
+    color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.entertainment-list, .bar-specials {
+    flex: 1;
+    min-width: 280px;
+}
+
+.entertainment-list h5, .bar-specials h5 {
+    color: gold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.entertainment-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.entertainment-list li {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    border-left: 3px solid gold;
+    padding-left: 10px;
+}
+
+/* Ensure bar menu items look good on the dark background */
+.bar-specials .menu-item {
+    background: #080000;
+    color: white;
+    border: 1px solid #333;
+    margin-bottom: 10px;
+}
+
+/* Hotel Grid Layout */
+.room-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* Room Card Styling */
+.room-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    width: 320px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    text-align: left;
+}
+
+.room-card img {
+    width: calc(100% + 50px); /* Compensate for parent padding */
+    margin: -25px -25px 20px -25px; /* Pull image to edges */
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    display: block;
+}
+
+.room-card:hover {
+    transform: translateY(-10px); /* Lifts the card slightly when hovered */
+}
+
+.room-card h4 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    color: #1a1a1a;
+}
+
+.price {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #b8860b;
+    margin: 15px 0;
+}
+
+/* Room Badge (Popular/Elite) */
+.room-badge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background-color: gold;
+    color: black;
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 2; /* Ensures badge sits on top of the image */
+}
+
+.room-badge.vvip {
+    background-color: #1a1a1a;
+    color: gold;
+    border: 1px solid gold;
+}
+
+.spa-booking-container {
+    max-width: 500px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group select, 
+.form-group input[type="datetime-local"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: inherit;
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.radio-group input {
+    margin-right: 5px;
+}
+
+/* Adventure Sections */
+.adventure-section {
+    margin-top: 40px;
+}
+
+.activity-details {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #555;
+    margin: 10px 0;
+}
+
+.activity-details li {
+    margin-bottom: 5px;
+    padding-left: 5px;
+    border-left: 2px solid gold;
+}
+
+/* Activity Chip Grid */
+.activity-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.activity-item {
+    background: #fff;
+    padding: 15px;
+    border-radius: 50px; /* Makes them look like rounded pills */
+    border: 1px solid gold;
+    font-weight: bold;
+    color: #1a1a1a;
+    transition: 0.3s;
+    cursor: default;
+}
+
+.activity-item:hover {
+    background: gold;
+    color: #000;
+}
+
+/* Styling for the numeric input in the event form */
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+#Events h5 {
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    border-bottom: 1px solid gold;
+    display: inline-block;
+}
+
+.lunar-footer {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    padding: 60px 20px 20px 20px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-column h4 {
+    color: gold;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.footer-column p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: gold;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+/* Style for all text, email, and password inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Crucial for keeping inputs inside the container */
+    font-family: Arial, sans-serif;
+}
+
+input:focus {
+    outline: none;
+    border-color: gold;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+#Register h3, #Login h3 {
+    margin-top: 0;
+    color: #1a1a1a;
+    font-family: 'Georgia', serif;
+}
+
+.brochure-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+
+/* Creating a "Book Cover" look with CSS */
+.brochure-preview {
+    width: 250px;
+    height: 350px;
+    background-color: #1a1a1a;
+    border-radius: 5px 15px 15px 5px; /* Makes one side look like a spine */
+    box-shadow: 15px 15px 30px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gold;
+    position: relative;
+    border-left: 10px solid #000;
+}
+
+.brochure-page {
+    text-align: center;
+    border: 1px solid gold;
+    padding: 20px;
+    width: 70%;
+}
+
+.brochure-page span {
+    display: block;
+    font-size: 1.5rem;
+    font-family: 'Georgia', serif;
+}
+
+.brochure-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.brochure-info ul {
+    margin: 20px 0;
+    color: #555;
+}
+
+.brochure-info li {
+    margin-bottom: 8px;
+}
+
+#welcome-section {
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/welcome page.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#welcome h2 {
+    font-size: 3rem;
+    color: rgb(0, 0, 0);
+}
+
+/* Post-Login Dashboard Welcome Screen */
+#dashboard-welcome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/lobby2.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    z-index: 9000; /* Below auth, above everything else */
+    display: flex; /* This is the default state when visible */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.dashboard-content h2 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+.dashboard-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Full Screen Auth Page Overrides */
+#Auth {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10000;
+    padding: 0; /* Remove tab-content padding */
+    background: white;
+}
+
+/* The outer frame */
+.auth-wrapper {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Hides the form that isn't active */
+    background: white;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* The long box containing both forms */
+.auth-container {
+    display: flex;
+    width: 200%; /* Double the screen width */
+    height: 100%;
+    transition: transform 0.6s ease-in-out; /* The sliding speed */
+}
+
+/* Individual form styling */
+.auth-form {
+    width: 50%; /* Each form takes 1 screen width */
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Constrain content width inside the full screen form */
+.auth-form > form, 
+.auth-form > h3, 
+.auth-form > p {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* The toggle class we will trigger with JS */
+.auth-container.slide-active {
+    transform: translateX(-50%); /* Moves the box 1 screen width to the left */
+}
+
+.toggle-link {
+    color: #b8860b;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.input-row {
+    display: flex;
+    gap: 10px;
+}
+
+        /* ADMIN SPECIFIC STYLES */
+.admin-body { background: #f0f2f5; margin: 0; font-family: 'Segoe UI', sans-serif; }
+
+#admin-auth {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/lobby1.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+.auth-card {
+    background: white;
+    padding: 0;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    text-align: center;
+    overflow: hidden;
+}
+
+.admin-auth-form {
+    width: 50%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.admin-login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #b8860b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.admin-header {
+    background: #1a1a1a;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid #b8860b;
+}
+
+.admin-header-logo {
+    height: 40px;
+    margin-right: 20px;
+}
+
+.admin-identity { display: flex; align-items: center; }
+
+.admin-main-layout { display: flex; height: calc(100vh - 100px); }
+
+.admin-sidebar {
+    width: 220px;
+    background: #2c2c2c;
+    padding: 20px 0;
+}
+
+.admin-sidebar button {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #ccc;
+    padding: 15px 25px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.admin-sidebar button:hover { background: #3d3d3d; color: white; }
+
+.admin-content { flex: 1; padding: 30px; overflow-y: auto; }
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.admin-table th, .admin-table td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Badges and Buttons */
+.badge { padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
+.deposit { background: #ffeaa7; color: #d6a316; }
+
+.approve-btn { background: #27ae60; color: white; border: none; padding: 7px 12px; border-radius: 4px; cursor: pointer; }
+.reject-btn { background: #c0392b; color: white; border: none; padding: 7px 12px; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+
+.exit-btn { background: transparent; border: 1px solid white; color: white; padding: 8px 15px; cursor: pointer; border-radius: 5px; }
+
+.admin-profile-area {
+    position: relative;
+}
+
+.admin-profile-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid gold;
+}
+
+.admin-profile-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 60px;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+    border-radius: 8px;
+}
+
+.admin-profile-dropdown.show { display: block; }
+
+.admin-profile-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.admin-profile-dropdown a:hover { background-color: #f1f1f1; }
+
+#dashboard-home-tab {
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/welcomepage4.jpeg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 8px;
+}
+
+/* FIX: Added styles for error states and loading indicators */
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.error-message {
+    color: #c0392b;
+    background: #fdeaea;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-left: 4px solid #c0392b;
+    margin: 10px 0;
+}
+
+.success-message {
+    color: #27ae60;
+    background: #e8f8f5;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-left: 4px solid #27ae60;
+    margin: 10px 0;
+}
+
+/* Style for approve/reject buttons in admin table */
+.approve-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.approve-btn:hover {
+    background: #219a52;
+}
+
+.reject-btn {
+    background: #c0392b;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-left: 5px;
+}
+
+.reject-btn:hover {
+    background: #a93226;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    font-style: italic;
+}

@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNAR | Admin Portal</title>
+    <link rel="stylesheet" href="style.css">
+<base target="_blank">
+</head>
+<body class="admin-body">
+
+    <section id="admin-auth">
+        <div class="auth-card">
+            <div class="auth-container" id="admin-sliding-box">
+                <!-- Login Form -->
+                <div class="admin-auth-form">
+                    <h3>LUNAR Management</h3>
+                    <p>Access Restricted to Authorized Personnel</p>
+                    <form onsubmit="adminLogin(event)">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select id="admin-role">
+                                <option value="hotel">Hotel & Accommodations</option>
+                                <option value="restaurant">Restaurant & Bar</option>
+                                <option value="spa">Wellness & Spa</option>
+                                <option value="events">Meetings & Events</option>
+                                <option value="travels">Travels & Activities</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Access Key</label>
+                            <input type="password" id="admin-pass" placeholder="Enter Access Key" required>
+                        </div>
+                        <button type="submit" class="admin-login-btn">Enter Portal</button>
+                        <p style="margin-top: 15px; font-size: 0.9rem;">Need to register? <a href="#" onclick="event.preventDefault(); toggleAdminAuth()" class="toggle-link">Create Account</a></p>
+                    </form>
+                </div>
+                <!-- Register Form -->
+                <div class="admin-auth-form">
+                    <h3>Admin Registration</h3>
+                    <p>Create a new management profile.</p>
+                    <form onsubmit="adminRegister(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="admin-reg-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select id="admin-reg-role">
+                                <option value="hotel">Hotel & Accommodations</option>
+                                <option value="restaurant">Restaurant & Bar</option>
+                                <option value="spa">Wellness & Spa</option>
+                                <option value="events">Meetings & Events</option>
+                                <option value="travels">Travels & Activities</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Access Key</label>
+                            <input type="password" id="admin-reg-pass" placeholder="Create a strong key" required>
+                        </div>
+                        <button type="submit" class="admin-login-btn">Create Account</button>
+                        <p style="margin-top: 15px; font-size: 0.9rem;">Already have access? <a href="#" onclick="event.preventDefault(); toggleAdminAuth()" class="toggle-link">Enter Portal</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="admin-dashboard" style="display: none;">
+        <header class="admin-header">
+            <div class="admin-identity">
+                <img src="images/lunar-logo-gold.png" alt="LUNAR" class="admin-header-logo">
+                <div>
+                    <h2 id="admin-welcome-text">Hi, Admin</h2>
+                    <span id="admin-dept-tag">Department</span>
+                </div>
+            </div>
+            <div class="admin-profile-area">
+                <img src="images/default-avatar.png" alt="Profile" id="admin-profile-icon" onclick="toggleProfileDropdown()">
+                <div id="admin-profile-dropdown" class="admin-profile-dropdown">
+                    <a href="#" onclick="alert('Edit Profile feature is under development.'); return false;">Edit Profile</a>
+                    <a href="index.html">Exit to Guest Site</a>
+                    <a href="#" onclick="adminLogout(event)">Log Out</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="admin-main-layout">
+            <aside class="admin-sidebar">
+                <button id="sidebar-bookings" onclick="showAdminTab('bookings')">📋 Reservations</button>
+                <button id="sidebar-reviews" onclick="showAdminTab('reviews')">⭐ Guest Reviews</button>
+                <button id="sidebar-checkout" onclick="showAdminTab('checkout')">🔑 Room Status</button>
+                <button id="sidebar-restaurant" onclick="showAdminTab('restaurant')">🍽️ Restaurant Orders</button>
+                <button id="sidebar-spa" onclick="showAdminTab('spa')">💆 Spa Appointments</button>
+                <button id="sidebar-events" onclick="showAdminTab('events')">🎉 Event Bookings</button>
+                <button id="sidebar-premium-travels" onclick="showAdminTab('premium-travels')">🚁 Premium Travels</button>
+                <button id="sidebar-resort-activities" onclick="showAdminTab('resort-activities')">🏹 Resort Activities</button>
+            </aside>
+
+            <main class="admin-content">
+                <div id="dashboard-home-tab" class="tab-pane" style="display:block;">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Welcome to the Management Portal</h2>
+                    <p style="font-size: 1.2rem;">Select an option from the sidebar to begin.</p>
+                </div>
+
+                <div id="bookings-tab" class="tab-pane">
+                    <h3>Pending Reservations</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Room Type</th>
+                                <th>Check-in / Out</th>
+                                <th>Payment Method</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hotel-booking-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="reviews-tab" class="tab-pane" style="display:none;">
+                    <h3>Guest Feedback</h3>
+                    <div class="review-item">
+                        <p><strong>@Sarah_W:</strong> "Amazing stay, but the spa was fully booked."</p>
+                        <button class="reply-btn" onclick="alert('Reply sent to guest!')">Reply</button>
+                        <button class="delete-btn" onclick="this.parentElement.remove()">Delete</button>
+                    </div>
+                </div>
+
+                <div id="checkout-tab" class="tab-pane" style="display:none;">
+                    <h3>Verify Room Status</h3>
+                    <button class="checkout-verify-btn" onclick="alert('Room 204 verified and cleared for next guest.')">Verify Check-out (Room 204)</button>
+                </div>
+
+                <div id="restaurant-tab" class="tab-pane" style="display:none;">
+                    <h3>Restaurant Reservations</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Table / Order</th>
+                                <th>Date & Time</th>
+                                <th>Payment Method</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="restaurant-booking-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="spa-tab" class="tab-pane" style="display:none;">
+                    <h3>Spa Appointments</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Treatment</th>
+                                <th>Therapist</th>
+                                <th>Date & Time</th>
+                                <th>Payment Method</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="spa-booking-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="events-tab" class="tab-pane" style="display:none;">
+                    <h3>Event Bookings</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Event Type</th>
+                                <th>Date</th>
+                                <th>Guests</th>
+                                <th>Quote Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-booking-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="premium-travels-tab" class="tab-pane" style="display:none;">
+                    <h3>Premium Travel Bookings</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Service</th>
+                                <th>Date & Time</th>
+                                <th>Payment Method</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="travels-booking-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="resort-activities-tab" class="tab-pane" style="display:none;">
+                    <h3>Resort Activity Bookings</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Activity</th>
+                                <th>Date & Time</th>
+                                <th>Payment Method</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activities-booking-list">
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

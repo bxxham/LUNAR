@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNAR RESORT</title>
+    <link rel="stylesheet" href="style.css">
+<base target="_blank">
+</head>
+<body>
+    <header>
+        <h1>LUNAR RESORT</h1>
+        <nav>
+            <span id="auth-links" class="header-auth-buttons">
+
+            </span>
+            <button id="logout-link" onclick="logoutUser(event)" style="display: none;">Logout</button>
+        </nav>
+    </header>
+
+    <section id="welcome-section">
+        <h2>Welcome to Lunar</h2>
+        <p>Experience the ultimate getaway.</p>
+        <div class="button-group">
+            <button class="reserve-btn btn-highlight" onclick="openAuth(event, 'register')">Join the Experience</button>
+            <button onclick="document.getElementById('brochure-section').scrollIntoView({ behavior: 'smooth' });">Get our Brochure</button>
+        </div>
+    </section>
+
+    <section id="services" style="display: none;">
+        <h3>Our Services</h3>
+        <div class="tab-container">
+    <button class="tab-link active" onclick="openTab(event, 'Hotel')">Hotel</button>
+    <button class="tab-link" onclick="openTab(event, 'Restaurant')">Restaurant</button>
+    <button class="tab-link" onclick="openTab(event, 'Spa')">Wellness & Spa</button>
+    <button class="tab-link" onclick="openTab(event, 'Travels')">Travels & Activities</button>
+    <button class="tab-link" onclick="openTab(event, 'Events')">Events & Meetings</button>
+</div>
+
+<div id="Hotel" class="tab-content" style="display:block;">
+    <div class="section-header">
+        <h3>LUNAR Accommodations</h3>
+        <p>Luxury redefined. Choose your perfect stay.</p>
+    </div>
+
+    <div class="room-grid">
+        <div class="room-card">
+            <img src="images/superiorroom.jpg" alt="Superior Room">
+            <h4>Superior Room</h4>
+            <p>A spacious room with elegant furnishings, a queen-size bed, and a view of the resort gardens.</p>
+            <span class="price">$180 / Night</span>
+            <div class="button-group">
+                <button class="reserve-btn" onclick="bookService('Hotel', 'Superior Room', 180, 'Deposit')">Pay Deposit</button>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Hotel', 'Superior Room', 180, 'Full')">Pay Full</button>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <img src="images/deluxeroom.jpg" alt="Deluxe Room">
+            <div class="room-badge">Popular</div>
+            <h4>Deluxe Room</h4>
+            <p>An expansive room featuring a king-size bed, a comfortable seating area, and stunning ocean views.</p>
+            <span class="price">$250 / Night</span>
+            <div class="button-group">
+                <button class="reserve-btn" onclick="bookService('Hotel', 'Deluxe Room', 250, 'Deposit')">Pay Deposit</button>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Hotel', 'Deluxe Room', 250, 'Full')">Pay Full</button>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <img src="images/juniorsuite.jpg" alt="Junior Suite">
+            <h4>Junior Suite</h4>
+            <p>Combines a sleeping area with a lounge space, offering more room to relax. Includes a private balcony.</p>
+            <span class="price">$350 / Night</span>
+            <div class="button-group">
+                <button class="reserve-btn" onclick="bookService('Hotel', 'Junior Suite', 350, 'Deposit')">Pay Deposit</button>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Hotel', 'Junior Suite', 350, 'Full')">Pay Full</button>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <img src="images/executivesuite.jpg" alt="Executive Suite">
+            <h4>Executive Suite</h4>
+            <p>Spacious living area, private balcony, and 24/7 butler service included for an unparalleled experience.</p>
+            <span class="price">$450 / Night</span>
+            <div class="button-group">
+                <button class="reserve-btn" onclick="bookService('Hotel', 'Executive Suite', 450, 'Deposit')">Pay Deposit</button>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Hotel', 'Executive Suite', 450, 'Full')">Pay Full</button>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <img src="images/presidentialsuite.jpg" alt="Presidential Suite">
+            <div class="room-badge">Elite</div>
+            <h4>Presidential Suite</h4>
+            <p>The epitome of luxury. Features multiple bedrooms, a dining area, a private terrace with a jacuzzi, and panoramic ocean views.</p>
+            <span class="price">$1200 / Night</span>
+            <div class="button-group">
+                <button class="reserve-btn" onclick="bookService('Hotel', 'Presidential Suite', 1200, 'Deposit')">Pay Deposit</button>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Hotel', 'Presidential Suite', 1200, 'Full')">Pay Full</button>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <img src="images/lunarpenthouse.jpg" alt="Lunar Penthouse">
+            <div class="room-badge vvip">VVIP</div>
+            <h4>The Lunar Penthouse</h4>
+            <p>Our top floor masterpiece. Features a private infinity pool, personal chef, and 360° panoramic views of the coastline.</p>
+            <span class="price">$2500 / Night</span>
+            <div class="button-group">
+                <button class="reserve-btn" onclick="bookService('Hotel', 'The Lunar Penthouse', 2500, 'Deposit')">Pay Deposit</button>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Hotel', 'The Lunar Penthouse', 2500, 'Full')">Pay Full</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Restaurant" class="tab-content">
+    <div class="section-header">
+        <h3>LUNAR Dining</h3>
+        <p>Gourmet flavors, locally sourced.</p>
+    </div>
+
+    <div class="room-grid">
+        <div class="room-card">
+            <img src="images/food1.jpg" alt="Main Course">
+            <h4>Main Course</h4>
+            <p>Exquisite dishes prepared by our world-class chefs.</p>
+            <ul class="activity-details">
+                <li><strong>Grilled Safari Beef:</strong> $25</li>
+                <li><strong>Lunar Truffle Pasta:</strong> $18</li>
+                <li><strong>Seared Snapper:</strong> $22</li>
+            </ul>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Restaurant', 'Main Course', 25, 'Full')">Reserve Table (Pay Full Amount)</button>
+            <button class="reserve-btn" style="width: 100%; margin-top: 10px;" onclick="bookService('Restaurant', 'Main Course', 25, 'Deposit')">Reserve Table (Pay Deposit)</button>
+        </div>
+
+        <div class="room-card">
+            <img src="images/bar2.jpg" alt="Drinks">
+            <h4>Drinks & Bar</h4>
+            <p>Fine wines and signature cocktails.</p>
+            <ul class="activity-details">
+                <li><strong>Celestial Mocktail:</strong> $8</li>
+                <li><strong>Lunar Reserve Red:</strong> $12</li>
+                <li><strong>Stardust Champagne:</strong> $90</li>
+            </ul>
+           <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Restaurant', 'Drinks & Bar', 30, 'Full')">Reserve Table (Pay Full Amount)</button>
+            <button class="reserve-btn" style="width: 100%; margin-top: 10px;" onclick="bookService('Restaurant', 'Drinks & Bar', 30, 'Deposit')">Reserve Table (Pay Deposit)</button>
+        </div>
+
+        <div class="room-card">
+            <img src="images/club1.jpg" alt="The Lunar Bar">
+            <h4>The Lunar Club</h4>
+            <p>Live entertainment and late-night bites.</p>
+            <ul class="activity-details">
+                <li><strong>Mon-Wed:</strong> Smooth Jazz Trio (7 PM - 10 PM)</li>
+                <li><strong>Fri-Sat:</strong> Resident DJ "Moonlight" (9 PM - 2 AM)</li>
+                <li><strong>Sunday:</strong> Acoustic Sunset Sessions (5 PM - 8 PM)</li>
+            </ul>
+            <p style="margin-top: 10px; font-weight: bold; color: #b8860b;">Bar Bites Menu</p>
+            <ul class="activity-details">
+                <li><strong>Crispy Calamari:</strong> $12</li>
+                <li><strong>Loaded Lunar Fries:</strong> $10</li>
+            </ul>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Restaurant', 'The Lunar Club', 22, 'Full')">Reserve Table (Pay Full Amount)</button>
+            <button class="reserve-btn" style="width: 100%; margin-top: 10px;" onclick="bookService('Restaurant', 'The Lunar Club', 22, 'Deposit')">Reserve Table (Pay Deposit)</button>
+        </div>
+    </div>
+</div>
+<div id="Spa" class="tab-content">
+    <div class="section-header">
+        <h3>LUNAR Wellness & Spa</h3>
+        <p>Rejuvenate your body and soul with our world-class treatments.</p>
+    </div>
+
+    <div class="room-grid">
+        <div class="room-card">
+            <img src="images/bodymassage.jpg" alt="Full Body Massage">
+            <h4>Full Body Massage</h4>
+            <p>A restorative deep-tissue massage designed to release tension and improve circulation.</p>
+            <span class="price">$120 / Session</span>
+            <div class="form-group">
+                <label>Preferred Attendant:</label>
+                <select>
+                    <option value="any">No Preference</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date & Time:</label>
+                <input type="datetime-local">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"> Include Refreshments</label>
+            </div>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Spa', 'Full Body Massage', 120, 'Full')">Book Massage</button>
+        </div>
+
+        <div class="room-card">
+            <img src="images/barbershop.jpg" alt="Barber Services">
+            <h4>Barber Services</h4>
+            <p>Premium grooming including haircuts, shaves, and facial treatments.</p>
+            <span class="price">$50 / Session</span>
+            <div class="form-group">
+                <label>Preferred Attendant:</label>
+                <select>
+                    <option value="any">No Preference</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date & Time:</label>
+                <input type="datetime-local">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"> Include Refreshments</label>
+            </div>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Spa', 'Barber Services', 50, 'Full')">Book Appointment</button>
+
+        </div>
+
+        <div class="room-card">
+            <img src="images/salon.jpg" alt="Hair Salon">
+            <h4>Hair Salon</h4>
+            <p>Expert styling, coloring, and treatments for a refreshing new look.</p>
+            <span class="price">$80 / Session</span>
+            <div class="form-group">
+                <label>Preferred Attendant:</label>
+                <select>
+                    <option value="any">No Preference</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date & Time:</label>
+                <input type="datetime-local">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"> Include Refreshments</label>
+            </div>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Spa', 'Hair Salon', 80, 'Full')">Book Salon</button>
+        </div>
+
+        <div class="room-card">
+            <img src="images/manipedi.jpg" alt="Manicure / Pedicure">
+            <h4>Manicure / Pedicure</h4>
+            <p>Complete nail care services for hands and feet in a relaxing environment.</p>
+            <span class="price">$60 / Session</span>
+            <div class="form-group">
+                <label>Preferred Attendant:</label>
+                <select>
+                    <option value="any">No Preference</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date & Time:</label>
+                <input type="datetime-local">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"> Include Refreshments</label>
+            </div>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Spa', 'Manicure / Pedicure', 60, 'Full')">Book Session</button>
+        </div>
+
+        <div class="room-card">
+            <img src="images/sauna.jpg" alt="Sauna">
+            <h4>Sauna Access</h4>
+            <p>Detoxify and relax in our premium wood-fired and steam saunas.</p>
+            <span class="price">$40 / Hour</span>
+            <div class="form-group">
+                <label>Date & Time:</label>
+                <input type="datetime-local">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"> Include Refreshments</label>
+            </div>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Spa', 'Sauna Access', 40, 'Full')">Book Sauna</button>
+        </div>
+
+        <div class="room-card">
+            <img src="images/gym.jpg" alt="GYM">
+            <h4>State-of-the-Art GYM</h4>
+            <p>Full access to our fitness center equipped with modern machines and weights.</p>
+            <span class="price">$30 / Day</span>
+            <div class="form-group">
+                <label>Date & Time:</label>
+                <input type="datetime-local">
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox"> Include Refreshments</label>
+            </div>
+            <button class="reserve-btn btn-highlight" style="width: 100%;" onclick="bookService('Spa', 'State-of-the-Art GYM', 30, 'Full')">Get Pass</button>
+        </div>
+    </div>
+</div>
+
+<div id="Travels" class="tab-content">
+    <div class="section-header">
+        <h1>LUNAR Adventures</h1>
+        <p>Explore the wild and the sky with our curated experiences.</p>
+    </div>
+
+    <div class="adventure-section">
+        <h2>🚁 Premium Travels</h2>
+        <div class="room-grid">
+            <div class="room-card">
+                <img src="images/chopperrides.jpg" alt="Chopper Ride">
+                <h4>Chopper Rides</h4>
+                <p>Private aerial tours of the resort and surrounding coastline.</p>
+                <ul class="activity-details">
+                    <li><strong>Duration:</strong> 30 mins / 1 hour</li>
+                    <li><strong>Capacity:</strong> Max 4 people</li>
+                </ul>
+                <span class="price">From $450</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Travels', 'Chopper Ride', 450, 'Deposit')">Book Flight</button>
+            </div>
+
+            <div class="room-card">
+                <img src="images/safaris.jpg" alt="Safari">
+                <h4>Guided Safaris</h4>
+                <p>Choose your vehicle: Open-top Jeep or Luxury SUV.</p>
+                <ul class="activity-details">
+                    <li><strong>Duration:</strong> Half Day / Full Day</li>
+                    <li><strong>Cost:</strong> Per vehicle type</li>
+                </ul>
+                <span class="price">From $200</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Travels', 'Guided Safari', 200, 'Deposit')">Book Safari</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="adventure-section">
+        <h2>🏹 Resort Activities</h2>
+        <div class="room-grid">
+            <div class="room-card">
+                <img src="images/horseriding.jpg" alt="Horse Riding">
+                <h4>🐎 Horse Riding</h4>
+                <p>Explore scenic trails on horseback. Suitable for all skill levels.</p>
+                <span class="price">From $50 / hour</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Activities', 'Horse Riding', 50, 'Full')">Book Now</button>
+            </div>
+            <div class="room-card">
+                <img src="images/archery.jpg" alt="Archery">
+                <h4>🎯 Archery</h4>
+                <p>Test your aim at our professional archery range. Equipment provided.</p>
+                <span class="price">From $30 / session</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Activities', 'Archery', 30, 'Full')">Book Now</button>
+            </div>
+            <div class="room-card">
+                <img src="images/quadbikes.jpg" alt="Quad Bikes">
+                <h4>🚜 Quad Bikes</h4>
+                <p>An adrenaline-fueled ride through our custom-built off-road tracks.</p>
+                <span class="price">From $75 / hour</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Activities', 'Quad Bikes', 75, 'Full')">Book Now</button>
+            </div>
+            <div class="room-card">
+                <img src="images/hiking.jpg" alt="Hiking">
+                <h4>🥾 Hiking</h4>
+                <p>Guided tours through breathtaking landscapes and nature trails.</p>
+                <span class="price">Complimentary</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Activities', 'Guided Hiking', 0, 'Full')">Join Group</button>
+            </div>
+            <div class="room-card">
+                <img src="images/swimming.jpg" alt="Pools">
+                <h4>🏊 Heated Jacuzzi & Pools</h4>
+                <p>Relax in our heated jacuzzi or take a dip in our serene swimming pools.</p>
+                <span class="price">Guest Access</span>
+            </div>
+            <div class="room-card">
+                <img src="images/teambuilding.jpg" alt="Team Building">
+                <h4>🤝 Team Building</h4>
+                <p>Customizable activities designed to foster collaboration and fun for groups.</p>
+                <span class="price">Inquire for Quote</span>
+                <button class="reserve-btn btn-highlight" onclick="bookService('Activities', 'Team Building', 0, 'Quote')">Inquire</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Events" class="tab-content">
+    <div class="section-header">
+        <h3>LUNAR Events & Meetings</h3>
+        <p>Host your prestigious gatherings in our world-class facilities.</p>
+    </div>
+
+    <div class="room-grid">
+        <div class="room-card">
+            <img src="images/ballroom.jpg" alt="Ballroom">
+            <div class="room-badge">Wedding Choice</div>
+            <h4>The Lunar Ballroom</h4>
+            <p>Perfect for weddings and large galas. Features crystal chandeliers and a grand stage.</p>
+            <ul class="activity-details">
+                <li><strong>Capacity:</strong> 1000 Guests</li>
+                <li><strong>Features:</strong> Full AV, Catering Kitchen</li>
+            </ul>
+            <span class="price">From $2,500 / Day</span>
+        </div>
+
+        <div class="room-card">
+            <img src="images/boardroom.jpg" alt="Boardroom">
+            <h4>Executive Boardroom</h4>
+            <p>Ideal for corporate meetings and strategy sessions in total privacy.</p>
+            <ul class="activity-details">
+                <li><strong>Capacity:</strong> 20 Guests</li>
+                <li><strong>Features:</strong> 4K Display, Video Conferencing</li>
+            </ul>
+            <span class="price">From $600 / Day</span>
+        </div>
+    </div>
+
+    <div class="spa-booking-container">
+        <h5>Inquire About an Event</h5>
+        <form id="event-form">
+            <div class="form-group">
+                <label for="event-type">Type of Event:</label>
+                <select id="event-type-select" name="event-type">
+                    <option value="wedding">Wedding</option>
+                    <option value="corporate">Corporate Meeting</option>
+                    <option value="conference">Conference</option>
+                    <option value="party">Private Party</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="guest-count">Estimated Guests:</label>
+                <input type="number" id="guest-count" name="guest-count" placeholder="e.g. 50">
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="reserve-btn btn-highlight" onclick="bookService('Events', document.getElementById('event-type-select').value, 5000, 'Quote')">Request a Quote</button>
+            </div>
+        </form>
+    </div>
+</div>
+    </section>
+
+    <section id="dashboard-welcome" style="display: none;">
+        <div class="dashboard-content">
+            <h2>Welcome to LUNAR</h2>
+            <p>Your ultimate getaway awaits. What would you like to do today?</p>
+            <button class="reserve-btn btn-highlight" onclick="showServices()">Explore Our Services</button>
+        </div>
+    </section>
+
+    <div id="Auth" class="tab-content" style="display: none;">
+        <div class="auth-wrapper">
+            <div class="auth-container" id="sliding-box">
+                <!-- Register Side -->
+                <div class="auth-form">
+                    <h3>Join LUNAR</h3>
+                    <p>Create an account to manage your bookings.</p>
+                    <form onsubmit="registerUser(event)">
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <input type="text" id="reg-name" name="reg-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">Email Address</label>
+                            <input type="email" id="reg-email" name="reg-email" placeholder="email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Password</label>
+                            <input type="password" id="reg-password" name="reg-password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="reserve-btn btn-highlight" style="width: 100%;">Create Account</button>
+                        <p style="margin-top: 15px; font-size: 0.9rem;">Have an account? <a href="#" onclick="event.preventDefault(); toggleAuth()" class="toggle-link">Log in</a></p>
+                    </form>
+                </div>
+
+                <!-- Login Side -->
+                <div class="auth-form">
+                    <h3>Welcome Back</h3>
+                    <p>Log in to access your LUNAR dashboard.</p>
+                    <form onsubmit="loginUser(event)">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" name="login-email" placeholder="email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" name="login-password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="reserve-btn btn-highlight" style="width: 100%;">Log In</button>
+                        <p style="margin-top: 15px; font-size: 0.9rem;">Don't have an account? <a href="#" onclick="event.preventDefault(); toggleAuth()" class="toggle-link">Register</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<section id="brochure-section" style="padding: 50px 20px; background-color: #fff;">
+    <div class="section-header">
+        <h3>The LUNAR Brochure</h3>
+        <p>Take a piece of paradise with you.</p>
+    </div>
+
+    <div class="brochure-container">
+        <div class="brochure-preview">
+            <div class="brochure-page">
+                <span>LUNAR 2026</span>
+                <small>Official Guide</small>
+            </div>
+        </div>
+
+        <div class="brochure-info">
+            <h4>What's Inside?</h4>
+            <ul>
+                <li>Exclusive Penthouse Floorplans</li>
+                <li>Full 5-Course Tasting Menus</li>
+                <li>Private Safari Map & Routes</li>
+                <li>Seasonal Wellness Retreat Dates</li>
+            </ul>
+            <p>Download our 24-page digital brochure for offline viewing.</p>
+
+            <a href="#" class="reserve-btn btn-highlight" download>Download PDF Brochure (12MB)</a>
+        </div>
+    </div>
+</section>
+
+    <footer class="lunar-footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h4>Our Story</h4>
+            <p>Founded in 1998, LUNAR Resort began as a small seaside retreat. Today, it stands as a pinnacle of luxury, blending wild adventure with world-class wellness.</p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Download Brochure (PDF)</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Contact Us</h4>
+            <p>📍 101 Moonlit Drive, Coastal Valley</p>
+            <p>📞 <strong>Hotel:</strong> +1 234 567 01</p>
+            <p>📞 <strong>Restaurant:</strong> +1 234 567 02</p>
+            <p>📞 <strong>Spa & Wellness:</strong> +1 234 567 03</p>
+            <p>📞 <strong>Travels & Activities:</strong> +1 234 567 04</p>
+            <p>📞 <strong>Events & Meetings:</strong> +1 234 567 05</p>
+            <p>✉️ info@lunarresort.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 LUNAR Resort. Designed for the Ultimate Experience.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
