@@ -85,8 +85,10 @@ function logoutUser(event) {
 }
 
 function showServices() {
-    document.getElementById('dashboard-welcome').style.display = 'none';
-    document.getElementById('services').style.display = 'block';
+    if (document.getElementById('welcome-section')) document.getElementById('welcome-section').style.display = 'none';
+    if (document.getElementById('brochure-section')) document.getElementById('brochure-section').style.display = 'none';
+    if (document.getElementById('dashboard-welcome')) document.getElementById('dashboard-welcome').style.display = 'none';
+    if (document.getElementById('services')) document.getElementById('services').style.display = 'block';
 
     const hotelButton = document.querySelector('.tab-link[onclick*="Hotel"]') || document.querySelector('.tab-link');
     openTab({ currentTarget: hotelButton }, 'Hotel');
@@ -118,7 +120,638 @@ function isValidDate(dateStr) {
     return true;
 }
 
+// --- 2.5 FULL-PAGE HOTEL ROOM SHOWCASE & PAYMENT ---
+
+const HOTEL_ROOMS = {
+    'superior': {
+        id: 'superior',
+        title: 'Superior Room',
+        tagline: 'Spacious elegance overlooking the tranquil resort gardens',
+        badge: '',
+        price: 180,
+        description: 'Our Superior Room offers an intimate sanctuary enveloped in contemporary coastal luxury. Featuring an opulent queen-size bed dressed in 400-thread-count Egyptian cotton, fine hand-crafted mahogany furnishings, and oversized picture windows overlooking our fragrant resort gardens and water features. Perfect for discerning travelers seeking serenity, comfort, and restorative repose.',
+        images: [
+            { src: 'images/superiorroom.jpg', label: 'Suite Bedroom' },
+            { src: 'images/lobby1.jpeg', label: 'Grand Lobby' },
+            { src: 'images/swimming.jpg', label: 'Resort Pool' },
+            { src: 'images/restaurant1.jpg', label: 'Garden Terrace' }
+        ],
+        specs: [
+            { label: 'Capacity', value: '2 Adults' },
+            { label: 'Bed Type', value: '1 Queen Bed' },
+            { label: 'Suite Size', value: '45 m² / 485 ft²' },
+            { label: 'Balcony View', value: 'Resort Gardens' }
+        ],
+        amenities: [
+            'Complimentary High-Speed Fiber Wi-Fi',
+            '55" 4K Smart TV with Streaming Hub',
+            'Italian Marble En-suite with Rainfall Shower',
+            'Nespresso Coffee Bar & Artisan Herbal Teas',
+            'Twice-Daily Housekeeping & Evening Turndown',
+            'Complimentary Resort Pool & Fitness Access'
+        ]
+    },
+    'deluxe': {
+        id: 'deluxe',
+        title: 'Deluxe Room',
+        tagline: 'Expansive comfort featuring ocean vistas and private sea-breeze terrace',
+        badge: 'Popular',
+        price: 250,
+        description: 'An expansive retreat commanding spectacular panoramic ocean vistas. The Deluxe Room features an ultra-plush king-size bed, a comfortable lounge area with custom designer furnishings, and a private glass-fronted balcony where gentle sea breezes welcome every sunrise. Enjoy deep soaking tubs and artisan bath amenities for the ultimate coastal escape.',
+        images: [
+            { src: 'images/deluxeroom.jpg', label: 'Deluxe Suite' },
+            { src: 'images/jacuzi.jpg', label: 'Spa Jacuzzi' },
+            { src: 'images/lobby2.jpeg', label: 'Ocean Reception' },
+            { src: 'images/swimming.jpg', label: 'Infinity Pool' }
+        ],
+        specs: [
+            { label: 'Capacity', value: '2-3 Guests' },
+            { label: 'Bed Type', value: '1 King Bed' },
+            { label: 'Suite Size', value: '60 m² / 645 ft²' },
+            { label: 'Balcony View', value: 'Panoramic Ocean' }
+        ],
+        amenities: [
+            'Private Sea-Breeze Balcony with Sun Loungers',
+            'Deep Soaking Tub & Dual Marble Vanities',
+            'Complimentary Stocked Gourmet Mini-Bar',
+            '65" OLED TV & Bang & Olufsen Soundbar',
+            'High-Speed Fiber Wi-Fi Throughout',
+            'Complimentary Access to Infinity Pool & Spa Deck'
+        ]
+    },
+    'junior-suite': {
+        id: 'junior-suite',
+        title: 'Junior Suite',
+        tagline: 'Harmonious open-concept layout blending sleep, lounge, and sunset views',
+        badge: '',
+        price: 350,
+        description: 'Designed for generous living, our Junior Suite seamlessly fuses a lavish master sleeping quarter with an expansive open-plan lounge. Step onto your private sun terrace equipped with designer loungers, or unwind in your spa-grade soaking tub. Includes personalized in-room dining and dedicated hospitality concierge around the clock.',
+        images: [
+            { src: 'images/juniorsuite.jpg', label: 'Junior Suite' },
+            { src: 'images/jacuzi.jpg', label: 'Hydro Jacuzzi' },
+            { src: 'images/swimming.jpg', label: 'Private Lagoon' },
+            { src: 'images/lobby1.jpeg', label: 'VIP Lounge' }
+        ],
+        specs: [
+            { label: 'Capacity', value: '3 Guests' },
+            { label: 'Bed Type', value: 'King Bed + Daybed' },
+            { label: 'Suite Size', value: '80 m² / 860 ft²' },
+            { label: 'Balcony View', value: 'Coastline & Ocean' }
+        ],
+        amenities: [
+            'Separate Designer Lounge & Entertainment Area',
+            'Private Sunset Balcony with Teak Sunbeds',
+            'Hydrotherapy Spa Jacuzzi & Rainforest Shower',
+            '24/7 Personalized In-Room Dining Service',
+            'Luxury Bathrobes & Acqua di Parma Toiletries',
+            'Priority Reservations at All LUNAR Venues'
+        ]
+    },
+    'executive-suite': {
+        id: 'executive-suite',
+        title: 'Executive Suite',
+        tagline: 'Peerless distinction with 24/7 private butler and wraparound terrace',
+        badge: '',
+        price: 450,
+        description: 'Tailored for the ultimate indulgence, the Executive Suite offers refined architectural grandeur. Revel in a grand master bedroom, separate executive meeting & dining salon, and a private wraparound balcony. A dedicated 24/7 private butler attends to every detail, from unpacking your luggage to arranging bespoke resort excursions.',
+        images: [
+            { src: 'images/executivesuite.jpg', label: 'Executive Suite' },
+            { src: 'images/jacuzi.jpg', label: 'Spa & Jacuzzi' },
+            { src: 'images/swimming.jpg', label: 'Executive Deck' },
+            { src: 'images/lobby2.jpeg', label: 'VIP Concierge' }
+        ],
+        specs: [
+            { label: 'Capacity', value: '4 Guests' },
+            { label: 'Bed Type', value: 'Master King Bedroom' },
+            { label: 'Suite Size', value: '110 m² / 1,180 ft²' },
+            { label: 'Balcony View', value: 'Coastline & Ocean' }
+        ],
+        amenities: [
+            'Dedicated 24/7 Personal Butler Service',
+            'Wraparound Panoramic Terrace with Daybed',
+            'Executive Lounge Access & Evening Cocktail Hour',
+            'Private In-Suite Jacuzzi & Steam Shower',
+            'Bang & Olufsen Premium Audio Suite',
+            'Complimentary Chauffeur Airport Transfer'
+        ]
+    },
+    'presidential': {
+        id: 'presidential',
+        title: 'Presidential Suite',
+        tagline: 'The absolute zenith of coastal luxury with heated oceanfront jacuzzi terrace',
+        badge: 'Elite',
+        price: 1200,
+        description: 'The epitome of regal seaside indulgence. Spanning multiple grand bedrooms, a lavish formal dining salon, and a private expansive terrace featuring a heated infinity-edge jacuzzi perched over the waves. Complete with dedicated butler service, a private sommelier-curated bar, and chauffeured VIP luxury transfers.',
+        images: [
+            { src: 'images/presidentialsuite.jpg', label: 'Presidential Suite' },
+            { src: 'images/jacuzi.jpg', label: 'Oceanfront Jacuzzi' },
+            { src: 'images/swimming.jpg', label: 'VIP Lagoon Pool' },
+            { src: 'images/lunarpenthouse.jpg', label: 'Grand Terrace' }
+        ],
+        specs: [
+            { label: 'Capacity', value: '6 Guests' },
+            { label: 'Bed Type', value: '2 Master King Suites' },
+            { label: 'Suite Size', value: '220 m² / 2,368 ft²' },
+            { label: 'Balcony View', value: '270° Ocean Panorama' }
+        ],
+        amenities: [
+            'Private Heated Oceanfront Jacuzzi & Sun Terrace',
+            'Full Formal Dining Room & Curated Private Bar',
+            '24/7 Dedicated Butler & Private In-Suite Chef Option',
+            'Luxury VIP Chauffeur Transfer (Rolls-Royce / Maybach)',
+            'Unlimited Spa Treatments & Reserved Private Cabana',
+            'Biometric Security & Complete Penthouse Wing Privacy'
+        ]
+    },
+    'penthouse': {
+        id: 'penthouse',
+        title: 'The Lunar Penthouse',
+        tagline: 'Our crowning architectural jewel with rooftop infinity pool and personal chef',
+        badge: 'VVIP',
+        price: 2500,
+        description: 'Perched at the highest peak of LUNAR Resort, this one-of-a-kind penthouse represents the pinnacle of world-class hospitality. Occupying the entire top floor, it features a private glass-bottom rooftop infinity pool, dedicated gourmet personal chef, helicopter pad access, and unrestricted 360° vistas of the sea and coastal hills.',
+        images: [
+            { src: 'images/lunarpenthouse.jpg', label: 'Rooftop Penthouse' },
+            { src: 'images/chopperrides.jpg', label: 'Helipad Transfer' },
+            { src: 'images/jacuzi.jpg', label: 'Private Sky Jacuzzi' },
+            { src: 'images/swimming.jpg', label: 'Infinity Sky Pool' }
+        ],
+        specs: [
+            { label: 'Capacity', value: '8 Guests' },
+            { label: 'Bed Type', value: '3 Grand King Suites' },
+            { label: 'Suite Size', value: '450 m² / 4,840 ft²' },
+            { label: 'Balcony View', value: '360° Coastal Panorama' }
+        ],
+        amenities: [
+            'Private Rooftop Infinity Pool & Sky Lounge',
+            'Dedicated Private Master Chef for Custom Gourmet Dining',
+            'Direct Helipad & Helicopter Airport Transfers Included',
+            'Unlimited Rare Wine & Champagne Cellar Selection',
+            'Private Yacht Sunset Excursion Included',
+            'Full Floor Exclusivity & 24/7 Private Security Detail'
+        ]
+    }
+};
+
+let currentHotelRoom = null;
+let currentStay = {
+    checkin: '',
+    checkout: '',
+    nights: 1,
+    paymentType: 'Deposit',
+    paymentMethod: 'M-Pesa'
+};
+
+function openHotelDetailPage(roomId, defaultPaymentType) {
+    const room = HOTEL_ROOMS[roomId] || HOTEL_ROOMS['superior'];
+    currentHotelRoom = room;
+
+    const fullpage = document.getElementById('hotel-fullpage-view');
+    if (!fullpage) return;
+
+    // 1. Populate Room Header
+    const badgeEl = document.getElementById('fp-badge');
+    if (room.badge) {
+        badgeEl.innerText = room.badge;
+        badgeEl.style.display = 'inline-block';
+        if (room.badge === 'VVIP') {
+            badgeEl.style.background = '#1a1a1a';
+            badgeEl.style.color = 'gold';
+            badgeEl.style.border = '1px solid gold';
+        } else {
+            badgeEl.style.background = 'gold';
+            badgeEl.style.color = '#1a1a1a';
+            badgeEl.style.border = 'none';
+        }
+    } else {
+        badgeEl.style.display = 'none';
+    }
+
+    document.getElementById('fp-title').innerText = room.title;
+    document.getElementById('fp-tagline').innerText = room.tagline;
+    document.getElementById('fp-rate').innerText = `$${room.price}`;
+
+    // 2. Populate Hero Image & Thumbnails
+    const mainImg = document.getElementById('fp-main-img');
+    mainImg.src = room.images[0].src;
+    mainImg.alt = room.title;
+    document.getElementById('fp-photo-counter').innerText = `Photo 1 of ${room.images.length}`;
+
+    const thumbStrip = document.getElementById('fp-thumbnail-strip');
+    thumbStrip.innerHTML = room.images.map((img, idx) => `
+        <div class="fp-thumb-item ${idx === 0 ? 'active' : ''}" onclick="switchHeroImage('${img.src}', ${idx})">
+            <img src="${img.src}" alt="${img.label}">
+            <span class="fp-thumb-label">${img.label}</span>
+        </div>
+    `).join('');
+
+    // 3. Populate Specs & Amenities
+    const specsGrid = document.getElementById('fp-specs-grid');
+    specsGrid.innerHTML = room.specs.map(s => `
+        <div class="fp-spec-pill">
+            <div class="fp-spec-info">
+                <span class="fp-spec-label">${s.label}</span>
+                <span class="fp-spec-val">${s.value}</span>
+            </div>
+        </div>
+    `).join('');
+
+    document.getElementById('fp-description').innerText = room.description;
+
+    const amenitiesList = document.getElementById('fp-amenities-list');
+    amenitiesList.innerHTML = room.amenities.map(a => `
+        <li>
+            <span class="fp-amenity-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>${a}</span>
+        </li>
+    `).join('');
+
+    // 4. Setup Default Dates
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    const todayStr = today.toISOString().split('T')[0];
+    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+    const checkinInput = document.getElementById('fp-checkin');
+    const checkoutInput = document.getElementById('fp-checkout');
+
+    checkinInput.min = todayStr;
+    checkinInput.value = todayStr;
+
+    checkoutInput.min = tomorrowStr;
+    checkoutInput.value = tomorrowStr;
+
+    currentStay.checkin = todayStr;
+    currentStay.checkout = tomorrowStr;
+    currentStay.paymentType = defaultPaymentType === 'Full' ? 'Full' : 'Deposit';
+
+    // 5. Pre-populate Guest Info if logged in
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+        try {
+            const user = JSON.parse(storedUser);
+            if (user.name) document.getElementById('fp-guest-name').value = user.name;
+            if (user.email) document.getElementById('fp-guest-email').value = user.email;
+        } catch(e) {}
+    }
+
+    // 6. Set payment plan UI & payment method
+    setStayPaymentType(currentStay.paymentType);
+    selectFpPaymentMethod(currentStay.paymentMethod || 'M-Pesa');
+    updateStayCalculation();
+
+    // 7. Show the Fullpage view & lock body scroll
+    fullpage.style.display = 'block';
+    fullpage.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeHotelDetailPage() {
+    const fullpage = document.getElementById('hotel-fullpage-view');
+    if (fullpage) fullpage.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    currentHotelRoom = null;
+}
+
+function switchHeroImage(src, index) {
+    const mainImg = document.getElementById('fp-main-img');
+    if (!mainImg) return;
+
+    mainImg.style.opacity = '0.3';
+    setTimeout(() => {
+        mainImg.src = src;
+        mainImg.style.opacity = '1';
+    }, 150);
+
+    const thumbs = document.querySelectorAll('.fp-thumb-item');
+    thumbs.forEach((t, i) => {
+        if (i === index) t.classList.add('active');
+        else t.classList.remove('active');
+    });
+
+    const counter = document.getElementById('fp-photo-counter');
+    if (counter && currentHotelRoom) {
+        counter.innerText = `Photo ${index + 1} of ${currentHotelRoom.images.length}`;
+    }
+}
+
+function setStayPaymentType(type) {
+    currentStay.paymentType = type;
+
+    const depositCard = document.getElementById('plan-card-deposit');
+    const fullCard = document.getElementById('plan-card-full');
+    const depositRadio = document.getElementById('radio-plan-deposit');
+    const fullRadio = document.getElementById('radio-plan-full');
+
+    if (type === 'Deposit') {
+        if (depositCard) depositCard.classList.add('active');
+        if (fullCard) fullCard.classList.remove('active');
+        if (depositRadio) depositRadio.checked = true;
+    } else {
+        if (fullCard) fullCard.classList.add('active');
+        if (depositCard) depositCard.classList.remove('active');
+        if (fullRadio) fullRadio.checked = true;
+    }
+
+    updateStayCalculation();
+}
+
+function updateStayCalculation() {
+    if (!currentHotelRoom) return;
+
+    const checkinVal = document.getElementById('fp-checkin').value;
+    const checkoutVal = document.getElementById('fp-checkout').value;
+
+    let nights = 1;
+    if (checkinVal && checkoutVal) {
+        const inDate = new Date(checkinVal);
+        const outDate = new Date(checkoutVal);
+        const diffMs = outDate - inDate;
+        if (diffMs > 0) {
+            nights = Math.max(1, Math.round(diffMs / (1000 * 60 * 60 * 24)));
+        }
+    }
+
+    currentStay.nights = nights;
+    currentStay.checkin = checkinVal;
+    currentStay.checkout = checkoutVal;
+
+    // Update checkout input min date to checkin + 1 day
+    if (checkinVal) {
+        const nextDay = new Date(checkinVal);
+        nextDay.setDate(nextDay.getDate() + 1);
+        document.getElementById('fp-checkout').min = nextDay.toISOString().split('T')[0];
+    }
+
+    const durationTag = document.getElementById('fp-duration-tag');
+    if (durationTag) durationTag.innerText = `${nights} Night${nights > 1 ? 's' : ''} Stay`;
+
+    const totalCost = nights * currentHotelRoom.price;
+    const depositAmount = totalCost * 0.5;
+    const fullAmount = totalCost;
+
+    // Update payment plan option calculated amounts
+    const depositAmtEl = document.getElementById('fp-plan-deposit-amt');
+    const fullAmtEl = document.getElementById('fp-plan-full-amt');
+    if (depositAmtEl) depositAmtEl.innerText = `$${depositAmount.toFixed(2)}`;
+    if (fullAmtEl) fullAmtEl.innerText = `$${fullAmount.toFixed(2)}`;
+
+    // Update summary column
+    document.getElementById('fp-sum-room-name').innerText = currentHotelRoom.title;
+    document.getElementById('fp-sum-calc-rate').innerText = `$${currentHotelRoom.price}.00 × ${nights} night${nights > 1 ? 's' : ''}`;
+
+    let payableNow = 0;
+    let balanceDue = 0;
+
+    if (currentStay.paymentType === 'Deposit') {
+        payableNow = depositAmount;
+        balanceDue = totalCost - depositAmount;
+        document.getElementById('fp-sum-plan-label').innerText = '50% Deposit';
+        document.getElementById('fp-sum-balance-due').innerText = `Balance due at check-in: $${balanceDue.toFixed(2)}`;
+        document.getElementById('fp-sum-balance-due').style.display = 'block';
+    } else {
+        payableNow = fullAmount;
+        balanceDue = 0;
+        document.getElementById('fp-sum-plan-label').innerText = 'Full Amount';
+        document.getElementById('fp-sum-balance-due').innerText = 'Fully Paid (No balance upon check-in)';
+        document.getElementById('fp-sum-balance-due').style.display = 'block';
+    }
+
+    document.getElementById('fp-sum-now-amount').innerText = `$${payableNow.toFixed(2)}`;
+    document.getElementById('fp-book-btn-label').innerText = `Confirm & Pay $${payableNow.toFixed(2)}`;
+}
+
+function selectFpPaymentMethod(method) {
+    currentStay.paymentMethod = method;
+
+    const hiddenInput = document.getElementById('fp-active-payment-method');
+    if (hiddenInput) hiddenInput.value = method;
+
+    document.querySelectorAll('.fp-method-card').forEach(btn => {
+        if (btn.getAttribute('data-method') === method) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    const fieldsContainer = document.getElementById('fp-method-specific-fields');
+    if (!fieldsContainer) return;
+
+    if (method === 'M-Pesa') {
+        fieldsContainer.innerHTML = `
+            <div class="fp-input-wrap">
+                <label for="fp-pay-phone">Safaricom Phone Number</label>
+                <input type="tel" id="fp-pay-phone" placeholder="e.g. 0712 345 678 or 254712345678" required>
+                <small style="color: #666; font-size: 12px; margin-top: 6px; display: block;">An instant STK Push prompt will be sent directly to your phone for PIN verification.</small>
+            </div>
+        `;
+    } else if (method === 'Credit/Debit Card') {
+        fieldsContainer.innerHTML = `
+            <div class="fp-input-wrap">
+                <label for="fp-card-name">Cardholder Name</label>
+                <input type="text" id="fp-card-name" placeholder="Name on card">
+            </div>
+            <div class="fp-input-wrap">
+                <label for="fp-card-num">Card Number</label>
+                <input type="text" id="fp-card-num" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+            </div>
+            <div class="fp-input-row">
+                <div class="fp-input-wrap">
+                    <label for="fp-card-exp">Expiry Date</label>
+                    <input type="text" id="fp-card-exp" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="fp-input-wrap">
+                    <label for="fp-card-cvv">CVV</label>
+                    <input type="password" id="fp-card-cvv" placeholder="123" maxlength="4">
+                </div>
+            </div>
+        `;
+    } else if (method === 'PayPal') {
+        fieldsContainer.innerHTML = `
+            <div class="fp-input-wrap">
+                <label for="fp-paypal-email">PayPal Account Email</label>
+                <input type="email" id="fp-paypal-email" placeholder="email@paypal.com">
+                <small style="color: #666; font-size: 12px; margin-top: 6px; display: block;">You will authorize your payment via PayPal's encrypted luxury portal.</small>
+            </div>
+        `;
+    } else if (method === 'Apple Pay') {
+        fieldsContainer.innerHTML = `
+            <div class="fp-input-wrap">
+                <label for="fp-apple-id">Apple ID / iCloud Email</label>
+                <input type="email" id="fp-apple-id" placeholder="id@icloud.com">
+                <small style="color: #666; font-size: 12px; margin-top: 6px; display: block;">One-touch biometric authorization enabled for Apple Pay users.</small>
+            </div>
+        `;
+    } else if (method === 'Cash') {
+        fieldsContainer.innerHTML = `
+            <div style="padding: 10px 0; color: #444; font-size: 14px; line-height: 1.5;">
+                <strong>Pay Upon Arrival</strong>
+                <p style="margin: 6px 0 0 0; color: #666;">No advance charge required now. Settle your stay upon check-in at the LUNAR front desk with Cash, Card, or Wire Transfer.</p>
+            </div>
+        `;
+    }
+}
+
+function submitFullpageBooking() {
+    if (!currentHotelRoom) return;
+
+    const guestName = document.getElementById('fp-guest-name').value.trim();
+    const guestEmail = document.getElementById('fp-guest-email').value.trim();
+    const checkin = document.getElementById('fp-checkin').value;
+    const checkout = document.getElementById('fp-checkout').value;
+    const paymentMethod = currentStay.paymentMethod;
+
+    if (!guestName) {
+        alert("Please enter the primary guest name.");
+        document.getElementById('fp-guest-name').focus();
+        return;
+    }
+
+    if (!guestEmail || !guestEmail.includes('@')) {
+        alert("Please provide a valid email address for your booking confirmation voucher.");
+        document.getElementById('fp-guest-email').focus();
+        return;
+    }
+
+    if (!checkin || !checkout) {
+        alert("Please select your check-in and check-out dates.");
+        return;
+    }
+
+    if (new Date(checkout) <= new Date(checkin)) {
+        alert("Check-out date must be after check-in date.");
+        return;
+    }
+
+    // Collect payment details
+    let paymentDetail = "";
+    if (paymentMethod === 'M-Pesa') {
+        paymentDetail = document.getElementById('fp-pay-phone')?.value.trim();
+        if (!paymentDetail) {
+            alert("Please enter your M-Pesa phone number.");
+            document.getElementById('fp-pay-phone')?.focus();
+            return;
+        }
+    } else if (paymentMethod === 'Credit/Debit Card') {
+        const cardNum = document.getElementById('fp-card-num')?.value.trim();
+        if (!cardNum || cardNum.length < 12) {
+            alert("Please provide a valid credit/debit card number.");
+            document.getElementById('fp-card-num')?.focus();
+            return;
+        }
+        paymentDetail = "Card ending in " + cardNum.slice(-4);
+    } else if (paymentMethod === 'PayPal') {
+        paymentDetail = document.getElementById('fp-paypal-email')?.value.trim();
+        if (!paymentDetail) {
+            alert("Please enter your PayPal email address.");
+            return;
+        }
+    } else if (paymentMethod === 'Apple Pay') {
+        paymentDetail = document.getElementById('fp-apple-id')?.value.trim();
+        if (!paymentDetail) {
+            alert("Please enter your Apple ID email.");
+            return;
+        }
+    } else {
+        paymentDetail = "Pay at LUNAR Front Desk";
+    }
+
+    const totalCost = currentStay.nights * currentHotelRoom.price;
+    const paidNow = (currentStay.paymentType === 'Deposit') ? (totalCost * 0.5) : totalCost;
+    const balance = totalCost - paidNow;
+    const reservationCode = "LNR-" + Math.floor(100000 + Math.random() * 900000);
+
+    const bookingRecord = {
+        booking_id: reservationCode,
+        guest_name: guestName,
+        guest_email: guestEmail,
+        room_type: currentHotelRoom.title,
+        checkin: checkin,
+        checkout: checkout,
+        nights: currentStay.nights,
+        payment_method: paymentMethod,
+        payment_details: paymentDetail,
+        payment_type: currentStay.paymentType === 'Deposit' ? '50% Deposit' : 'Full Amount',
+        amount_paid: paidNow.toFixed(2),
+        balance_due: balance.toFixed(2),
+        created_at: new Date().toISOString()
+    };
+
+    // Save to local storage for reference
+    try {
+        const existing = JSON.parse(localStorage.getItem("lunarBookings") || "[]");
+        existing.unshift(bookingRecord);
+        localStorage.setItem("lunarBookings", JSON.stringify(existing));
+    } catch(e) {}
+
+    const submitBtn = document.querySelector('.fp-book-btn');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+    }
+
+    if (paymentMethod === 'M-Pesa') {
+        alert(`STK PUSH SENT!\n\nA payment prompt has been sent to ${paymentDetail}.\nPlease enter your M-Pesa PIN on your phone to complete payment of $${paidNow.toFixed(2)}.`);
+        
+        setTimeout(() => {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+            alert(`RESERVATION CONFIRMED!\n\nReference: ${reservationCode}\nRoom: ${currentHotelRoom.title}\nGuest: ${guestName}\nDates: ${checkin} to ${checkout} (${currentStay.nights} nights)\nAmount Paid: $${paidNow.toFixed(2)} (via M-Pesa)\nBalance Due at Check-in: $${balance.toFixed(2)}\n\nA digital voucher has been sent to ${guestEmail}.`);
+            closeHotelDetailPage();
+        }, 2200);
+    } else {
+        setTimeout(() => {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+            alert(`RESERVATION CONFIRMED!\n\nReference: ${reservationCode}\nRoom: ${currentHotelRoom.title}\nGuest: ${guestName}\nDates: ${checkin} to ${checkout} (${currentStay.nights} nights)\nAmount Paid: $${paidNow.toFixed(2)} (${paymentMethod})\nBalance Due at Check-in: $${balance.toFixed(2)}\n\nA digital voucher has been sent to ${guestEmail}.`);
+            closeHotelDetailPage();
+        }, 500);
+    }
+}
+
+// Close full-page view on Escape key
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const fp = document.getElementById('hotel-fullpage-view');
+        if (fp && fp.style.display !== 'none') {
+            closeHotelDetailPage();
+        }
+    }
+});
+
+// Auto-restore login state if user exists in localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    const stored = localStorage.getItem("currentUser");
+    if (stored) {
+        try {
+            updatePostLoginUI();
+        } catch(e) {}
+    }
+});
+
 function bookService(category, service, amount, paymentType) {
+    // Hotel category now uses the dedicated full-page room showcase & payment view
+    if (category === 'Hotel') {
+        const keyMap = {
+            'Superior Room': 'superior',
+            'Deluxe Room': 'deluxe',
+            'Junior Suite': 'junior-suite',
+            'Executive Suite': 'executive-suite',
+            'Presidential Suite': 'presidential',
+            'The Lunar Penthouse': 'penthouse'
+        };
+        const roomId = keyMap[service] || 'superior';
+        openHotelDetailPage(roomId, paymentType);
+        return;
+    }
+
     const storedData = localStorage.getItem("currentUser");
     const currentUser = storedData ? JSON.parse(storedData) : null;
 
