@@ -1,4 +1,9 @@
 
+const formatCurrency = amount => `KSh ${Number(amount).toLocaleString('en-KE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+})}`;
+
 // --- 1. UI NAVIGATION & TABS ---
 
 function openTab(evt, tabName) {
@@ -128,7 +133,7 @@ const HOTEL_ROOMS = {
         title: 'Superior Room',
         tagline: 'Spacious elegance overlooking the tranquil resort gardens',
         badge: '',
-        price: 180,
+        price: 23400,
         description: 'Our Superior Room offers an intimate sanctuary enveloped in contemporary coastal luxury. Featuring an opulent queen-size bed dressed in 400-thread-count Egyptian cotton, fine hand-crafted mahogany furnishings, and oversized picture windows overlooking our fragrant resort gardens and water features. Perfect for discerning travelers seeking serenity, comfort, and restorative repose.',
         images: [
             { src: 'images/superiorroom.jpg', label: 'Suite Bedroom' },
@@ -156,7 +161,7 @@ const HOTEL_ROOMS = {
         title: 'Deluxe Room',
         tagline: 'Expansive comfort featuring ocean vistas and private sea-breeze terrace',
         badge: 'Popular',
-        price: 250,
+        price: 32500,
         description: 'An expansive retreat commanding spectacular panoramic ocean vistas. The Deluxe Room features an ultra-plush king-size bed, a comfortable lounge area with custom designer furnishings, and a private glass-fronted balcony where gentle sea breezes welcome every sunrise. Enjoy deep soaking tubs and artisan bath amenities for the ultimate coastal escape.',
         images: [
             { src: 'images/deluxeroom.jpg', label: 'Deluxe Suite' },
@@ -184,7 +189,7 @@ const HOTEL_ROOMS = {
         title: 'Junior Suite',
         tagline: 'Harmonious open-concept layout blending sleep, lounge, and sunset views',
         badge: '',
-        price: 350,
+        price: 45500,
         description: 'Designed for generous living, our Junior Suite seamlessly fuses a lavish master sleeping quarter with an expansive open-plan lounge. Step onto your private sun terrace equipped with designer loungers, or unwind in your spa-grade soaking tub. Includes personalized in-room dining and dedicated hospitality concierge around the clock.',
         images: [
             { src: 'images/juniorsuite.jpg', label: 'Junior Suite' },
@@ -212,7 +217,7 @@ const HOTEL_ROOMS = {
         title: 'Executive Suite',
         tagline: 'Peerless distinction with 24/7 private butler and wraparound terrace',
         badge: '',
-        price: 450,
+        price: 58500,
         description: 'Tailored for the ultimate indulgence, the Executive Suite offers refined architectural grandeur. Revel in a grand master bedroom, separate executive meeting & dining salon, and a private wraparound balcony. A dedicated 24/7 private butler attends to every detail, from unpacking your luggage to arranging bespoke resort excursions.',
         images: [
             { src: 'images/executivesuite.jpg', label: 'Executive Suite' },
@@ -240,7 +245,7 @@ const HOTEL_ROOMS = {
         title: 'Presidential Suite',
         tagline: 'The absolute zenith of coastal luxury with heated oceanfront jacuzzi terrace',
         badge: 'Elite',
-        price: 1200,
+        price: 156000,
         description: 'The epitome of regal seaside indulgence. Spanning multiple grand bedrooms, a lavish formal dining salon, and a private expansive terrace featuring a heated infinity-edge jacuzzi perched over the waves. Complete with dedicated butler service, a private sommelier-curated bar, and chauffeured VIP luxury transfers.',
         images: [
             { src: 'images/presidentialsuite.jpg', label: 'Presidential Suite' },
@@ -268,7 +273,7 @@ const HOTEL_ROOMS = {
         title: 'The Lunar Penthouse',
         tagline: 'Our crowning architectural jewel with rooftop infinity pool and personal chef',
         badge: 'VVIP',
-        price: 2500,
+        price: 325000,
         description: 'Perched at the highest peak of LUNAR Resort, this one-of-a-kind penthouse represents the pinnacle of world-class hospitality. Occupying the entire top floor, it features a private glass-bottom rooftop infinity pool, dedicated gourmet personal chef, helicopter pad access, and unrestricted 360° vistas of the sea and coastal hills.',
         images: [
             { src: 'images/lunarpenthouse.jpg', label: 'Rooftop Penthouse' },
@@ -329,7 +334,7 @@ function openHotelDetailPage(roomId, defaultPaymentType) {
 
     document.getElementById('fp-title').innerText = room.title;
     document.getElementById('fp-tagline').innerText = room.tagline;
-    document.getElementById('fp-rate').innerText = `$${room.price}`;
+    document.getElementById('fp-rate').innerText = formatCurrency(room.price);
 
     // 2. Populate Hero Image & Thumbnails
     const mainImg = document.getElementById('fp-main-img');
@@ -495,12 +500,12 @@ function updateStayCalculation() {
     // Update payment plan option calculated amounts
     const depositAmtEl = document.getElementById('fp-plan-deposit-amt');
     const fullAmtEl = document.getElementById('fp-plan-full-amt');
-    if (depositAmtEl) depositAmtEl.innerText = `$${depositAmount.toFixed(2)}`;
-    if (fullAmtEl) fullAmtEl.innerText = `$${fullAmount.toFixed(2)}`;
+    if (depositAmtEl) depositAmtEl.innerText = formatCurrency(depositAmount);
+    if (fullAmtEl) fullAmtEl.innerText = formatCurrency(fullAmount);
 
     // Update summary column
     document.getElementById('fp-sum-room-name').innerText = currentHotelRoom.title;
-    document.getElementById('fp-sum-calc-rate').innerText = `$${currentHotelRoom.price}.00 × ${nights} night${nights > 1 ? 's' : ''}`;
+    document.getElementById('fp-sum-calc-rate').innerText = `${formatCurrency(currentHotelRoom.price)} × ${nights} night${nights > 1 ? 's' : ''}`;
 
     let payableNow = 0;
     let balanceDue = 0;
@@ -509,7 +514,7 @@ function updateStayCalculation() {
         payableNow = depositAmount;
         balanceDue = totalCost - depositAmount;
         document.getElementById('fp-sum-plan-label').innerText = '50% Deposit';
-        document.getElementById('fp-sum-balance-due').innerText = `Balance due at check-in: $${balanceDue.toFixed(2)}`;
+        document.getElementById('fp-sum-balance-due').innerText = `Balance due at check-in: ${formatCurrency(balanceDue)}`;
         document.getElementById('fp-sum-balance-due').style.display = 'block';
     } else {
         payableNow = fullAmount;
@@ -519,8 +524,8 @@ function updateStayCalculation() {
         document.getElementById('fp-sum-balance-due').style.display = 'block';
     }
 
-    document.getElementById('fp-sum-now-amount').innerText = `$${payableNow.toFixed(2)}`;
-    document.getElementById('fp-book-btn-label').innerText = `Confirm & Pay $${payableNow.toFixed(2)}`;
+    document.getElementById('fp-sum-now-amount').innerText = formatCurrency(payableNow);
+    document.getElementById('fp-book-btn-label').innerText = `Confirm & Pay ${formatCurrency(payableNow)}`;
 }
 
 function selectFpPaymentMethod(method) {
@@ -694,14 +699,14 @@ function submitFullpageBooking() {
     }
 
     if (paymentMethod === 'M-Pesa') {
-        alert(`STK PUSH SENT!\n\nA payment prompt has been sent to ${paymentDetail}.\nPlease enter your M-Pesa PIN on your phone to complete payment of $${paidNow.toFixed(2)}.`);
+        alert(`STK PUSH SENT!\n\nA payment prompt has been sent to ${paymentDetail}.\nPlease enter your M-Pesa PIN on your phone to complete payment of ${formatCurrency(paidNow)}.`);
         
         setTimeout(() => {
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
             }
-            alert(`RESERVATION CONFIRMED!\n\nReference: ${reservationCode}\nRoom: ${currentHotelRoom.title}\nGuest: ${guestName}\nDates: ${checkin} to ${checkout} (${currentStay.nights} nights)\nAmount Paid: $${paidNow.toFixed(2)} (via M-Pesa)\nBalance Due at Check-in: $${balance.toFixed(2)}\n\nA digital voucher has been sent to ${guestEmail}.`);
+            alert(`RESERVATION CONFIRMED!\n\nReference: ${reservationCode}\nRoom: ${currentHotelRoom.title}\nGuest: ${guestName}\nDates: ${checkin} to ${checkout} (${currentStay.nights} nights)\nAmount Paid: ${formatCurrency(paidNow)} (via M-Pesa)\nBalance Due at Check-in: ${formatCurrency(balance)}\n\nA digital voucher has been sent to ${guestEmail}.`);
             closeHotelDetailPage();
         }, 2200);
     } else {
@@ -710,7 +715,7 @@ function submitFullpageBooking() {
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
             }
-            alert(`RESERVATION CONFIRMED!\n\nReference: ${reservationCode}\nRoom: ${currentHotelRoom.title}\nGuest: ${guestName}\nDates: ${checkin} to ${checkout} (${currentStay.nights} nights)\nAmount Paid: $${paidNow.toFixed(2)} (${paymentMethod})\nBalance Due at Check-in: $${balance.toFixed(2)}\n\nA digital voucher has been sent to ${guestEmail}.`);
+            alert(`RESERVATION CONFIRMED!\n\nReference: ${reservationCode}\nRoom: ${currentHotelRoom.title}\nGuest: ${guestName}\nDates: ${checkin} to ${checkout} (${currentStay.nights} nights)\nAmount Paid: ${formatCurrency(paidNow)} (${paymentMethod})\nBalance Due at Check-in: ${formatCurrency(balance)}\n\nA digital voucher has been sent to ${guestEmail}.`);
             closeHotelDetailPage();
         }, 500);
     }
@@ -958,19 +963,19 @@ function submitBookingForm() {
 
     if (paymentMethod === 'M-Pesa') {
         // Simulate the STK Push experience
-        alert(`STK Push Sent!\n\nPlease check your phone (${paymentDetail}) and enter your M-Pesa PIN to authorize the payment of $${paidNow.toFixed(2)}.`);
+        alert(`STK Push Sent!\n\nPlease check your phone (${paymentDetail}) and enter your M-Pesa PIN to authorize the payment of ${formatCurrency(paidNow)}.`);
         
         // Simulate a delay for the user to enter their PIN and the network to process
         setTimeout(() => {
             console.log("Booking Processed (M-Pesa Simulation):", bookingDetails);
-            alert(`Payment Verified!\n\nSuccess! Booking for ${service} confirmed.\n\nGuest: ${currentUser.name}\nCheck-in: ${checkin}\nAmount Paid: $${paidNow.toFixed(2)}\nPayment via: ${paymentMethod}`);
+            alert(`Payment Verified!\n\nSuccess! Booking for ${service} confirmed.\n\nGuest: ${currentUser.name}\nCheck-in: ${checkin}\nAmount Paid: ${formatCurrency(paidNow)}\nPayment via: ${paymentMethod}`);
             closeBookingModal();
         }, 2500);
         return;
     }
 
     console.log("Booking Processed (Frontend Only):", bookingDetails);
-    alert(`Success! Booking for ${service} confirmed.\n\nGuest: ${currentUser.name}\nCheck-in: ${checkin}\nAmount Paid: $${paidNow.toFixed(2)}\nPayment via: ${paymentMethod}`);
+    alert(`Success! Booking for ${service} confirmed.\n\nGuest: ${currentUser.name}\nCheck-in: ${checkin}\nAmount Paid: ${formatCurrency(paidNow)}\nPayment via: ${paymentMethod}`);
     
     closeBookingModal();
 }
@@ -1061,7 +1066,7 @@ function processBooking(id, action, amount, paymentType) {
 
     if (action === 'accept') {
         if (paymentType === 'Deposit' && numericAmount < depositLimit) {
-            alert(`Rejected: ID ${id} deposit $${amount} is below the $${depositLimit} limit.`);
+            alert(`Rejected: ID ${id} deposit ${formatCurrency(amount)} is below the ${formatCurrency(depositLimit)} limit.`);
             return;
         }
 
