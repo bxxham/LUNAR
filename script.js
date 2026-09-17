@@ -109,8 +109,8 @@ const LUNAR_SERVICES = {
     'quad-bikes': { id: 'quad-bikes', title: 'Quad Bikes Off-Road', category: 'Travels & Activities', tagline: 'Adrenaline-fueled off-road quad biking tracks', price: 9750, period: '/ Hour', img: 'images/quadbikes.jpg', desc: 'Navigate high-energy dirt tracks and scenic terrain with all-terrain vehicles.' },
 
     // EVENTS & MEETINGS
-    'ballroom': { id: 'ballroom', title: 'The Lunar Ballroom', category: 'Events & Meetings', tagline: 'Grand galas, banquets, and luxury weddings', price: 325000, period: '/ Day', img: 'images/ballroom.jpg', desc: 'Accommodating up to 1000 guests with crystal chandeliers, full AV setups, and private catering facilities.' },
-    'boardroom': { id: 'boardroom', title: 'Executive Boardroom', category: 'Events & Meetings', tagline: 'Private corporate meetings and board retreats', price: 78000, period: '/ Day', img: 'images/boardroom.jpg', desc: 'State-of-the-art 4K video conferencing, ergonomic seating, and dedicated secretarial services for 20 guests.' }
+    'ballroom': { id: 'ballroom', title: 'The Lunar Ballroom', category: 'Events & Meetings', tagline: 'Grand galas, banquets, and luxury weddings', price: 325000, period: '/ Day', img: 'images/ballroom2.jpg', desc: 'Accommodating up to 1000 guests with crystal chandeliers, full AV setups, and private catering facilities.' },
+    'boardroom': { id: 'boardroom', title: 'Executive Boardroom', category: 'Events & Meetings', tagline: 'Private corporate meetings and board retreats', price: 78000, period: '/ Day', img: 'images/boardroom3.jpg', desc: 'State-of-the-art 4K video conferencing, ergonomic seating, and dedicated secretarial services for 20 guests.' }
 };
 
 let currentUnivService = null;
@@ -378,10 +378,3 @@ function submitFullpageBooking() {
     closeHotelDetailPage();
 }
 
-// RESTORE AUTO SESSION STATE
-document.addEventListener('DOMContentLoaded', function() {
-    const stored = localStorage.getItem("currentUser");
-    if (stored) {
-        try { updatePostLoginUI(); } catch(e) {}
-    }
-});
