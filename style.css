@@ -1525,6 +1525,28 @@ input:focus {
     border-color: #1a1a1a;
 }
 
+.fp-event-type-fields {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin: 20px 0;
+}
+
+.fp-input-wrap select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.fp-input-wrap select:focus {
+    outline: none;
+    border-color: #1a1a1a;
+}
+
 .fp-input-row {
     display: flex;
     gap: 14px;
