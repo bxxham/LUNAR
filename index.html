@@ -3,114 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUNAR RESORT</title>
+    <title>LUNAR RESORT | Luxury Hotel & Urban Retreat</title>
     <link rel="stylesheet" href="style.css">
-    <base target="_blank">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>LUNAR RESORT</h1>
-        <nav>
-            <span id="auth-links" class="header-auth-buttons"></span>
-            <button id="logout-link" onclick="logoutUser(event)" style="display: none;">Logout</button>
-        </nav>
+    <!-- HEADER / NAVIGATION -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand-logo" onclick="window.location.reload()">
+                <span class="logo-title">LUNAR</span>
+                <span class="logo-subtitle">RESORT & SPA</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="javascript:void(0)" onclick="showServices('Hotel')" class="nav-link">Accommodations</a>
+                <a href="javascript:void(0)" onclick="showServices('Restaurant')" class="nav-link">Dining</a>
+                <a href="javascript:void(0)" onclick="showServices('Spa')" class="nav-link">Wellness & Spa</a>
+                <a href="javascript:void(0)" onclick="showServices('Travels')" class="nav-link">Experiences</a>
+                <a href="javascript:void(0)" onclick="showServices('Events')" class="nav-link">Events & Meetings</a>
+            </nav>
+
+            <div class="nav-actions">
+                <span id="auth-links">
+                    <button class="btn-outline-gold" onclick="openAuth(event, 'login')">Sign In</button>
+                    <button class="btn-gold" onclick="openAuth(event, 'register')">Join LUNAR</button>
+                </span>
+                <button id="logout-link" class="btn-outline-gold" onclick="logoutUser(event)" style="display: none;">Logout</button>
+            </div>
+        </div>
     </header>
 
-    <!-- WELCOME LANDING SECTION -->
-    <section id="welcome-section">
-        <h2>Welcome to Lunar</h2>
-        <p>Experience the ultimate getaway.</p>
-        <div class="button-group">
-            <button class="reserve-btn" onclick="openAuth(event, 'register')">Join the Experience</button>
-            <button onclick="document.getElementById('brochure-section').scrollIntoView({ behavior: 'smooth' });">Get our Brochure</button>
+    <!-- WELCOME HERO SECTION -->
+    <section id="welcome-section" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tagline">AN URBAN OASIS OF UNRIVALED LUXURY</span>
+            <h1 class="hero-title">Experience Pure Serenity</h1>
+            <p class="hero-description">Immerse yourself in contemporary elegance, world-class culinary art, and holistic rejuvenation.</p>
+            <div class="hero-cta-group">
+                <button class="btn-gold-lg" onclick="showServices('Hotel')">Explore LUNAR</button>
+                <button class="btn-outline-light-lg" onclick="document.getElementById('brochure-section').scrollIntoView({ behavior: 'smooth' });">Get Luxury Brochure</button>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator" onclick="showServices('Hotel')">
+            <span>DISCOVER</span>
+            <div class="scroll-line"></div>
         </div>
     </section>
 
     <!-- SERVICES TABS SECTION -->
-    <section id="services" style="display: none;">
-        <h3>Our Services</h3>
-        <div class="tab-container">
-            <button class="tab-link active" onclick="openTab(event, 'Hotel')">Hotel</button>
-            <button class="tab-link" onclick="openTab(event, 'Restaurant')">Restaurant</button>
+    <section id="services" class="services-wrapper" style="display: none;">
+        <div class="section-title-block">
+            <span class="sub-heading">CURATED LUXURY SERVICES</span>
+            <h2>The LUNAR Collections</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="tab-navigation">
+            <button class="tab-link active" onclick="openTab(event, 'Hotel')">Accommodations</button>
+            <button class="tab-link" onclick="openTab(event, 'Restaurant')">Dining & Lounge</button>
             <button class="tab-link" onclick="openTab(event, 'Spa')">Wellness & Spa</button>
-            <button class="tab-link" onclick="openTab(event, 'Travels')">Travels & Activities</button>
-            <button class="tab-link" onclick="openTab(event, 'Events')">Events & Meetings</button>
+            <button class="tab-link" onclick="openTab(event, 'Travels')">Adventures</button>
+            <button class="tab-link" onclick="openTab(event, 'Events')">Events & Galas</button>
         </div>
 
         <!-- 1. HOTEL TAB -->
         <div id="Hotel" class="tab-content" style="display:block;">
-            <div class="section-header">
-                <h3>LUNAR Accommodations</h3>
-                <p>Luxury redefined. Choose your perfect stay.</p>
-            </div>
-
             <div class="room-grid">
                 <div class="room-card" onclick="openHotelDetailPage('superior', 'Deposit')">
-                    <img src="images/superiorroom.jpg" alt="Superior Room">
-                    <h4>Superior Room</h4>
-                    <p>A spacious room with elegant furnishings, a queen-size bed, and a view of the resort gardens.</p>
-                    <span class="price">KSh 23,400 / Night</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openHotelDetailPage('superior', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openHotelDetailPage('superior', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <img src="images/superiorroom.jpg" alt="Superior Room">
+                    </div>
+                    <div class="card-body">
+                        <h4>Superior Room</h4>
+                        <p>A spacious retreat featuring refined furnishings, a queen-size bed, and direct views of lush private gardens.</p>
+                        <span class="price">KSh 23,400 <small>/ Night</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openHotelDetailPage('superior', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openHotelDetailPage('superior', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openHotelDetailPage('deluxe', 'Deposit')">
-                    <img src="images/deluxeroom.jpg" alt="Deluxe Room">
-                    <div class="room-badge">Popular</div>
-                    <h4>Deluxe Room</h4>
-                    <p>An expansive room featuring a king-size bed, a comfortable seating area, and stunning ocean views.</p>
-                    <span class="price">KSh 32,500 / Night</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openHotelDetailPage('deluxe', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openHotelDetailPage('deluxe', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <span class="room-badge">Popular</span>
+                        <img src="images/deluxeroom.jpg" alt="Deluxe Room">
+                    </div>
+                    <div class="card-body">
+                        <h4>Deluxe Ocean Room</h4>
+                        <p>Expansive coastal sanctuary boasting a plush king-size bed, private lounge area, and panoramic ocean vistas.</p>
+                        <span class="price">KSh 32,500 <small>/ Night</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openHotelDetailPage('deluxe', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openHotelDetailPage('deluxe', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openHotelDetailPage('junior-suite', 'Deposit')">
-                    <img src="images/juniorsuite.jpg" alt="Junior Suite">
-                    <h4>Junior Suite</h4>
-                    <p>Combines a sleeping area with a lounge space, offering more room to relax. Includes a private balcony.</p>
-                    <span class="price">KSh 45,500 / Night</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openHotelDetailPage('junior-suite', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openHotelDetailPage('junior-suite', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <img src="images/juniorsuite.jpg" alt="Junior Suite">
+                    </div>
+                    <div class="card-body">
+                        <h4>Junior Suite</h4>
+                        <p>Seamlessly integrates an opulent sleeping quarter with a stylish lounge terrace and teak balcony.</p>
+                        <span class="price">KSh 45,500 <small>/ Night</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openHotelDetailPage('junior-suite', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openHotelDetailPage('junior-suite', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openHotelDetailPage('executive-suite', 'Deposit')">
-                    <img src="images/executivesuite.jpg" alt="Executive Suite">
-                    <h4>Executive Suite</h4>
-                    <p>Spacious living area, private balcony, and 24/7 butler service included for an unparalleled experience.</p>
-                    <span class="price">KSh 58,500 / Night</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openHotelDetailPage('executive-suite', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openHotelDetailPage('executive-suite', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <img src="images/executivesuite.jpg" alt="Executive Suite">
+                    </div>
+                    <div class="card-body">
+                        <h4>Executive Suite</h4>
+                        <p>Architectural grandeur complete with private dining space, private balcony, and 24/7 dedicated butler service.</p>
+                        <span class="price">KSh 58,500 <small>/ Night</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openHotelDetailPage('executive-suite', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openHotelDetailPage('executive-suite', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openHotelDetailPage('presidential', 'Deposit')">
-                    <img src="images/presidentialsuite.jpg" alt="Presidential Suite">
-                    <div class="room-badge">Elite</div>
-                    <h4>Presidential Suite</h4>
-                    <p>The epitome of luxury. Features multiple bedrooms, a dining area, a private terrace with a jacuzzi, and panoramic ocean views.</p>
-                    <span class="price">KSh 156,000 / Night</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openHotelDetailPage('presidential', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openHotelDetailPage('presidential', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <span class="room-badge elite">Elite</span>
+                        <img src="images/presidentialsuite.jpg" alt="Presidential Suite">
+                    </div>
+                    <div class="card-body">
+                        <h4>Presidential Suite</h4>
+                        <p>The pinnacle of luxury. Multiple master bedrooms, grand salon, private heated terrace jacuzzi, and ocean views.</p>
+                        <span class="price">KSh 156,000 <small>/ Night</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openHotelDetailPage('presidential', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openHotelDetailPage('presidential', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openHotelDetailPage('penthouse', 'Deposit')">
-                    <img src="images/lunarpenthouse.jpg" alt="Lunar Penthouse">
-                    <div class="room-badge vvip">VVIP</div>
-                    <h4>The Lunar Penthouse</h4>
-                    <p>Our top floor masterpiece. Features a private infinity pool, personal chef, and 360° panoramic views of the coastline.</p>
-                    <span class="price">KSh 325,000 / Night</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openHotelDetailPage('penthouse', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openHotelDetailPage('penthouse', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <span class="room-badge vvip">VVIP</span>
+                        <img src="images/lunarpenthouse.jpg" alt="Lunar Penthouse">
+                    </div>
+                    <div class="card-body">
+                        <h4>The Lunar Penthouse</h4>
+                        <p>Crown-jewel rooftop residence. Features private infinity pool, personal executive chef, and 360° coastline views.</p>
+                        <span class="price">KSh 325,000 <small>/ Night</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openHotelDetailPage('penthouse', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openHotelDetailPage('penthouse', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,42 +170,49 @@
 
         <!-- 2. RESTAURANT TAB -->
         <div id="Restaurant" class="tab-content">
-            <div class="section-header">
-                <h3>LUNAR Dining</h3>
-                <p>Gourmet flavors, locally sourced.</p>
-            </div>
-
             <div class="room-grid">
                 <div class="room-card" onclick="openServiceDetailPage('main-course', 'Full')">
-                    <img src="images/food1.jpg" alt="Main Course">
-                    <h4>Main Course</h4>
-                    <p>Exquisite dishes prepared by our world-class chefs.</p>
-                    <span class="price">KSh 3,250 / Reservation</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openServiceDetailPage('main-course', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openServiceDetailPage('main-course', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <img src="images/food1.jpg" alt="Main Course">
+                    </div>
+                    <div class="card-body">
+                        <h4>Main Course Fine Dining</h4>
+                        <p>Exquisite gourmet creations curated by our award-winning international master chefs.</p>
+                        <span class="price">KSh 3,250 <small>/ Reservation</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openServiceDetailPage('main-course', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openServiceDetailPage('main-course', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('drinks-bar', 'Full')">
-                    <img src="images/bar2.jpg" alt="Drinks">
-                    <h4>Drinks & Bar</h4>
-                    <p>Fine wines and signature cocktails.</p>
-                    <span class="price">KSh 3,900 / Reservation</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openServiceDetailPage('drinks-bar', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openServiceDetailPage('drinks-bar', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <img src="images/bar2.jpg" alt="Drinks">
+                    </div>
+                    <div class="card-body">
+                        <h4>The Cellar & Mixology Bar</h4>
+                        <p>Rare vintage wines, aged spirits, and bespoke craft cocktails in a dark opulent setting.</p>
+                        <span class="price">KSh 3,900 <small>/ Reservation</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openServiceDetailPage('drinks-bar', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openServiceDetailPage('drinks-bar', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('lunar-club', 'Full')">
-                    <img src="images/club1.jpg" alt="The Lunar Bar">
-                    <h4>The Lunar Club</h4>
-                    <p>Live entertainment and late-night bites.</p>
-                    <span class="price">KSh 2,860 / Table</span>
-                    <div class="button-group">
-                        <button class="reserve-btn" onclick="event.stopPropagation(); openServiceDetailPage('lunar-club', 'Deposit')">Pay Deposit</button>
-                        <button class="reserve-btn btn-highlight" onclick="event.stopPropagation(); openServiceDetailPage('lunar-club', 'Full')">Pay Full</button>
+                    <div class="card-img-wrap">
+                        <img src="images/club1.jpg" alt="The Lunar Bar">
+                    </div>
+                    <div class="card-body">
+                        <h4>The Lunar Lounge & Club</h4>
+                        <p>Exclusive VIP tables featuring live acoustic jazz, world-class DJs, and premium night bites.</p>
+                        <span class="price">KSh 2,860 <small>/ Table</small></span>
+                        <div class="card-btn-row">
+                            <button class="btn-dark" onclick="event.stopPropagation(); openServiceDetailPage('lunar-club', 'Deposit')">Pay Deposit</button>
+                            <button class="btn-gold" onclick="event.stopPropagation(); openServiceDetailPage('lunar-club', 'Full')">Pay Full</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,115 +220,189 @@
 
         <!-- 3. SPA TAB -->
         <div id="Spa" class="tab-content">
-            <div class="section-header">
-                <h3>LUNAR Wellness & Spa</h3>
-                <p>Rejuvenate your body and soul with our world-class treatments.</p>
-            </div>
-
             <div class="room-grid">
                 <div class="room-card" onclick="openServiceDetailPage('body-massage', 'Full')">
-                    <img src="images/bodymassage.jpg" alt="Full Body Massage">
-                    <h4>Full Body Massage</h4>
-                    <p>A restorative deep-tissue massage designed to release tension and improve circulation.</p>
-                    <span class="price">KSh 15,600 / Session</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Book Session & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/bodymassage.jpg" alt="Full Body Massage">
+                    </div>
+                    <div class="card-body">
+                        <h4>Deep Tissue Body Therapy</h4>
+                        <p>A restorative massage designed to release muscle tension with organic essential oils.</p>
+                        <span class="price">KSh 15,600 <small>/ Session</small></span>
+                        <button class="btn-gold full-width">Book Session & Pay</button>
+                    </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('barber-services', 'Full')">
-                    <img src="images/barbershop.jpg" alt="Barber Services">
-                    <h4>Barber Services</h4>
-                    <p>Premium grooming including haircuts, shaves, and facial treatments.</p>
-                    <span class="price">KSh 6,500 / Session</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Book Appointment & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/barbershop.jpg" alt="Barber Services">
+                    </div>
+                    <div class="card-body">
+                        <h4>Gentlemen's Barber Lounge</h4>
+                        <p>Precision haircuts, traditional hot towel shaves, and facial revitalization.</p>
+                        <span class="price">KSh 6,500 <small>/ Session</small></span>
+                        <button class="btn-gold full-width">Book Grooming & Pay</button>
+                    </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('hair-salon', 'Full')">
-                    <img src="images/salon.jpg" alt="Hair Salon">
-                    <h4>Hair Salon</h4>
-                    <p>Expert styling, coloring, and treatments for a refreshing new look.</p>
-                    <span class="price">KSh 10,400 / Session</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Book Salon & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/salon.jpg" alt="Hair Salon">
+                    </div>
+                    <div class="card-body">
+                        <h4>Couture Hair Salon</h4>
+                        <p>Expert hair styling, custom coloring, and luxury scalp treatments.</p>
+                        <span class="price">KSh 10,400 <small>/ Session</small></span>
+                        <button class="btn-gold full-width">Book Salon & Pay</button>
+                    </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('manipedi', 'Full')">
-                    <img src="images/manipedi.jpg" alt="Manicure / Pedicure">
-                    <h4>Manicure / Pedicure</h4>
-                    <p>Complete nail care services for hands and feet in a relaxing environment.</p>
-                    <span class="price">KSh 7,800 / Session</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Book Session & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/manipedi.jpg" alt="Manicure / Pedicure">
+                    </div>
+                    <div class="card-body">
+                        <h4>Luxury Manicure & Pedicure</h4>
+                        <p>Total nail restoration, exfoliation, and nail artistry in a soothing environment.</p>
+                        <span class="price">KSh 7,800 <small>/ Session</small></span>
+                        <button class="btn-gold full-width">Book Session & Pay</button>
+                    </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('sauna', 'Full')">
-                    <img src="images/sauna.jpg" alt="Sauna">
-                    <h4>Sauna Access</h4>
-                    <p>Detoxify and relax in our premium wood-fired and steam saunas.</p>
-                    <span class="price">KSh 5,200 / Hour</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Book Sauna & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/sauna.jpg" alt="Sauna">
+                    </div>
+                    <div class="card-body">
+                        <h4>Herbal Sauna & Steam Suite</h4>
+                        <p>Detoxify in cedarwood Finnish saunas followed by cool plunge pool therapy.</p>
+                        <span class="price">KSh 5,200 <small>/ Hour</small></span>
+                        <button class="btn-gold full-width">Book Thermal Pass & Pay</button>
+                    </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('gym', 'Full')">
-                    <img src="images/gym.jpg" alt="GYM">
-                    <h4>State-of-the-Art GYM</h4>
-                    <p>Full access to our fitness center equipped with modern machines and weights.</p>
-                    <span class="price">KSh 3,900 / Day</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Get Pass & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/gym.jpg" alt="GYM">
+                    </div>
+                    <div class="card-body">
+                        <h4>Fitness & Health Club</h4>
+                        <p>Full state-of-the-art cardiovascular and strength conditioning equipment with personal trainers.</p>
+                        <span class="price">KSh 3,900 <small>/ Day</small></span>
+                        <button class="btn-gold full-width">Get Gym Pass & Pay</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 4. TRAVELS & ACTIVITIES TAB -->
         <div id="Travels" class="tab-content">
-            <div class="section-header">
-                <h1>LUNAR Adventures</h1>
-                <p>Explore the wild and the sky with our curated experiences.</p>
-            </div>
-
-            <div class="adventure-section">
-                <h2>Premium Travels</h2>
-                <div class="room-grid">
-                    <div class="room-card" onclick="openServiceDetailPage('chopper-ride', 'Deposit')">
+            <div class="room-grid">
+                <div class="room-card" onclick="openServiceDetailPage('chopper-ride', 'Deposit')">
+                    <div class="card-img-wrap">
                         <img src="images/chopperrides.jpg" alt="Chopper Ride">
-                        <h4>Chopper Rides</h4>
-                        <p>Private aerial tours of the resort and surrounding coastline.</p>
-                        <span class="price">KSh 58,500 / Flight</span>
-                        <button class="reserve-btn btn-highlight" style="width: 100%;">Book Flight & Pay</button>
                     </div>
-
-                    <div class="room-card" onclick="openServiceDetailPage('guided-safari', 'Deposit')">
-                        <img src="images/safaris.jpg" alt="Safari">
-                        <h4>Guided Safaris</h4>
-                        <p>Choose your vehicle: Open-top Jeep or Luxury SUV.</p>
-                        <span class="price">KSh 26,000 / Vehicle</span>
-                        <button class="reserve-btn btn-highlight" style="width: 100%;">Book Safari & Pay</button>
+                    <div class="card-body">
+                        <h4>Private Chopper Flight</h4>
+                        <p>Scenic aerial heli-tours across the picturesque rift coastline and national reserves.</p>
+                        <span class="price">KSh 58,500 <small>/ Flight</small></span>
+                        <button class="btn-gold full-width">Book Heli-Flight & Pay</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="adventure-section">
-                <h2>Resort Activities</h2>
-                <div class="room-grid">
-                    <div class="room-card" onclick="openServiceDetailPage('horse-riding', 'Full')">
+                <div class="room-card" onclick="openServiceDetailPage('guided-safari', 'Deposit')">
+                    <div class="card-img-wrap">
+                        <img src="images/safaris.jpg" alt="Safari">
+                    </div>
+                    <div class="card-body">
+                        <h4>Luxury Guided Safari</h4>
+                        <p>Custom open-top Jeep or luxury SUV game drives with professional wildlife experts.</p>
+                        <span class="price">KSh 26,000 <small>/ Vehicle</small></span>
+                        <button class="btn-gold full-width">Book Safari & Pay</button>
+                    </div>
+                </div>
+
+                <div class="room-card" onclick="openServiceDetailPage('horse-riding', 'Full')">
+                    <div class="card-img-wrap">
                         <img src="images/horseriding.jpg" alt="Horse Riding">
-                        <h4>Horse Riding</h4>
-                        <p>Explore scenic trails on horseback. Suitable for all skill levels.</p>
-                        <span class="price">KSh 6,500 / Hour</span>
-                        <button class="reserve-btn btn-highlight" style="width: 100%;">Book Trail & Pay</button>
                     </div>
+                    <div class="card-body">
+                        <h4>Beachfront Horse Riding</h4>
+                        <p>Guided coastal trails on noble thoroughbred horses suitable for all experience levels.</p>
+                        <span class="price">KSh 6,500 <small>/ Hour</small></span>
+                        <button class="btn-gold full-width">Book Riding Trail & Pay</button>
+                    </div>
+                </div>
 
-                    <div class="room-card" onclick="openServiceDetailPage('archery', 'Full')">
+                <div class="room-card" onclick="openServiceDetailPage('archery', 'Full')">
+                    <div class="card-img-wrap">
                         <img src="images/archery.jpg" alt="Archery">
-                        <h4>Archery</h4>
-                        <p>Test your aim at our professional archery range. Equipment provided.</p>
-                        <span class="price">KSh 3,900 / Session</span>
-                        <button class="reserve-btn btn-highlight" style="width: 100%;">Book Range & Pay</button>
                     </div>
+                    <div class="card-body">
+                        <h4>Precision Archery Range</h4>
+                        <p>Master target shooting with Olympic-grade recurve bows under professional guidance.</p>
+                        <span class="price">KSh 3,900 <small>/ Session</small></span>
+                        <button class="btn-gold full-width">Book Range & Pay</button>
+                    </div>
+                </div>
 
-                    <div class="room-card" onclick="openServiceDetailPage('quad-bikes', 'Full')">
+                <div class="room-card" onclick="openServiceDetailPage('quad-bikes', 'Full')">
+                    <div class="card-img-wrap">
                         <img src="images/quadbikes.jpg" alt="Quad Bikes">
-                        <h4>Quad Bikes</h4>
-                        <p>An adrenaline-fueled ride through our custom-built off-road tracks.</p>
-                        <span class="price">KSh 9,750 / Hour</span>
-                        <button class="reserve-btn btn-highlight" style="width: 100%;">Book Track & Pay</button>
+                    </div>
+                    <div class="card-body">
+                        <h4>Off-Road Quad Biking</h4>
+                        <p>High-energy ATV excursions traversing custom nature trails and coastal tracks.</p>
+                        <span class="price">KSh 9,750 <small>/ Hour</small></span>
+                        <button class="btn-gold full-width">Book Track & Pay</button>
+                    </div>
+                </div>
+
+                <div class="room-card" onclick="openServiceDetailPage('hiking', 'Full')">
+                    <div class="card-img-wrap">
+                        <img src="images/hiking.jpg" alt="Hiking">
+                    </div>
+                    <div class="card-body">
+                        <h4>Scenic Mountain Hiking</h4>
+                        <p>Guided ridge and valley hikes through lush trails, panoramic viewpoints, and serene wilderness stops.</p>
+                        <span class="price">KSh 7,800 <small>/ Group</small></span>
+                        <button class="btn-gold full-width">Book Hike & Pay</button>
+                    </div>
+                </div>
+
+                <div class="room-card" onclick="openServiceDetailPage('team-building', 'Deposit')">
+                    <div class="card-img-wrap">
+                        <img src="images/teambuilding.jpg" alt="Team Building">
+                    </div>
+                    <div class="card-body">
+                        <h4>Team Building Retreat</h4>
+                        <p>Collaborative adventure challenges, leadership drills, and strategy sessions hosted in a luxury camp environment.</p>
+                        <span class="price">KSh 18,500 <small>/ Session</small></span>
+                        <button class="btn-gold full-width">Book Retreat & Pay</button>
+                    </div>
+                </div>
+
+                <div class="room-card" onclick="openServiceDetailPage('swimming', 'Full')">
+                    <div class="card-img-wrap">
+                        <img src="images/swimming.jpg" alt="Swimming">
+                    </div>
+                    <div class="card-body">
+                        <h4>Private Pool & Swimming</h4>
+                        <p>Sunlit infinity pool access with private coaching, relaxation zones, and wellness-focused aqua sessions.</p>
+                        <span class="price">KSh 4,600 <small>/ Hour</small></span>
+                        <button class="btn-gold full-width">Book Swim Session & Pay</button>
+                    </div>
+                </div>
+
+                <div class="room-card" onclick="openServiceDetailPage('hot-air-balloon', 'Deposit')">
+                    <div class="card-img-wrap">
+                        <img src="images/hotairballoon.jpg" alt="Hot Air Balloon">
+                    </div>
+                    <div class="card-body">
+                        <h4>Hot Air Balloon Safari</h4>
+                        <p>Sunrise balloon journeys above the coastline and open savannah with a luxury champagne breakfast follow-up.</p>
+                        <span class="price">KSh 42,000 <small>/ Flight</small></span>
+                        <button class="btn-gold full-width">Book Balloon & Pay</button>
                     </div>
                 </div>
             </div>
@@ -277,58 +410,54 @@
 
         <!-- 5. EVENTS TAB -->
         <div id="Events" class="tab-content">
-            <div class="section-header">
-                <h3>LUNAR Events & Meetings</h3>
-                <p>Host your prestigious gatherings in our world-class facilities.</p>
-            </div>
-
             <div class="room-grid">
                 <div class="room-card" onclick="openServiceDetailPage('ballroom', 'Deposit')">
-                    <img src="images/ballroom2.jpg" alt="Ballroom">
-                    <div class="room-badge">Wedding Choice</div>
-                    <h4>The Lunar Ballroom</h4>
-                    <p>Perfect for weddings and large galas. Features crystal chandeliers and a grand stage.</p>
-                    <ul class="activity-details">
-                        <li><strong>Capacity:</strong> 1000 Guests</li>
-                        <li><strong>Features:</strong> Full AV, Catering Kitchen</li>
-                    </ul>
-                    <span class="price">KSh 325,000 / Day</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Reserve Venue & Pay</button>
+                    <div class="card-img-wrap">
+                        <span class="room-badge">Weddings & Galas</span>
+                        <img src="images/ballroom2.jpg" alt="Ballroom">
+                    </div>
+                    <div class="card-body">
+                        <h4>The Amethyst Grand Ballroom</h4>
+                        <p>Pillarless luxury ballroom for up to 1,000 guests, complete with crystal chandeliers and stage setups.</p>
+                        <span class="price">KSh 325,000 <small>/ Day</small></span>
+                        <button class="btn-gold full-width">Reserve Ballroom & Pay</button>
+                    </div>
                 </div>
 
                 <div class="room-card" onclick="openServiceDetailPage('boardroom', 'Deposit')">
-                    <img src="images/boardroom3.jpg" alt="Boardroom">
-                    <h4>Executive Boardroom</h4>
-                    <p>Ideal for corporate meetings and strategy sessions in total privacy.</p>
-                    <ul class="activity-details">
-                        <li><strong>Capacity:</strong> 20 Guests</li>
-                        <li><strong>Features:</strong> 4K Display, Video Conferencing</li>
-                    </ul>
-                    <span class="price">KSh 78,000 / Day</span>
-                    <button class="reserve-btn btn-highlight" style="width: 100%;">Reserve Boardroom & Pay</button>
+                    <div class="card-img-wrap">
+                        <img src="images/boardroom3.jpg" alt="Boardroom">
+                    </div>
+                    <div class="card-body">
+                        <h4>Executive Boardroom Suite</h4>
+                        <p>Sleek confidential meeting venue equipped with 4K video conferencing and ergonomic seating for 20.</p>
+                        <span class="price">KSh 78,000 <small>/ Day</small></span>
+                        <button class="btn-gold full-width">Reserve Boardroom & Pay</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="spa-booking-container">
-                <h5>Inquire About an Event</h5>
-                <form id="event-form" onsubmit="handleEventFormSubmit(event)">
+            <div class="event-inquiry-card">
+                <h3>Request a Bespoke Event Quote</h3>
+                <p>Planning a wedding, corporate retreat, or private banquet? Get an instant calculated package.</p>
+                <form id="event-form" onsubmit="handleEventFormSubmit(event)" class="event-form-grid">
                     <div class="form-group">
-                        <label for="event-type">Type of Event:</label>
+                        <label for="event-type-select">Event Category</label>
                         <select id="event-type-select" name="event-type">
-                            <option value="wedding">Wedding</option>
-                            <option value="corporate">Corporate Meeting</option>
-                            <option value="conference">Conference</option>
-                            <option value="party">Private Party</option>
+                            <option value="wedding">Luxury Wedding Celebration</option>
+                            <option value="corporate">Corporate Strategy Summit</option>
+                            <option value="conference">International Conference</option>
+                            <option value="party">VIP Private Banquet</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="guest-count">Estimated Guests:</label>
-                        <input type="number" id="guest-count" name="guest-count" placeholder="e.g. 50" required min="1">
+                        <label for="guest-count">Estimated Guests</label>
+                        <input type="number" id="guest-count" name="guest-count" placeholder="e.g. 100" required min="1">
                     </div>
 
-                    <div class="button-group">
-                        <button type="submit" class="reserve-btn btn-highlight" style="width: 100%;">Request Quote & Reserve</button>
+                    <div class="form-group full-width-btn">
+                        <button type="submit" class="btn-gold-lg width-100">Calculate Quote & Book</button>
                     </div>
                 </form>
             </div>
@@ -338,51 +467,53 @@
     <!-- DASHBOARD WELCOME SCREEN -->
     <section id="dashboard-welcome" style="display: none;">
         <div class="dashboard-content">
-            <h2>Welcome to LUNAR</h2>
-            <p>Your ultimate getaway awaits. What would you like to do today?</p>
-            <button class="reserve-btn btn-highlight" onclick="showServices()">Explore Our Services</button>
+            <span class="hero-tagline">GUEST DASHBOARD</span>
+            <h2 id="dashboard-user-greeting">Welcome Back to LUNAR</h2>
+            <p>Your luxury getaway is active. Select an experience below to manage your itinerary.</p>
+            <button class="btn-gold-lg" onclick="showServices('Hotel')">Explore Our Collections</button>
         </div>
     </section>
 
     <!-- AUTHENTICATION CONTAINER -->
     <div id="Auth" class="tab-content" style="display: none;">
+        <div class="auth-overlay" onclick="closeAuthModal()"></div>
         <div class="auth-wrapper">
             <div class="auth-container" id="sliding-box">
                 <div class="auth-form">
-                    <h3>Join LUNAR</h3>
-                    <p>Create an account to manage your bookings.</p>
+                    <h3>Join LUNAR Sanctuary</h3>
+                    <p>Create an account to manage your reservations and exclusive privileges.</p>
                     <form onsubmit="registerUser(event)">
                         <div class="form-group">
                             <label for="reg-name">Full Name</label>
-                            <input type="text" id="reg-name" name="reg-name" placeholder="Enter your name" required>
+                            <input type="text" id="reg-name" name="reg-name" placeholder="John Doe" required>
                         </div>
                         <div class="form-group">
                             <label for="reg-email">Email Address</label>
-                            <input type="email" id="reg-email" name="reg-email" placeholder="email@example.com" required>
+                            <input type="email" id="reg-email" name="reg-email" placeholder="name@example.com" required>
                         </div>
                         <div class="form-group">
                             <label for="reg-password">Password</label>
                             <input type="password" id="reg-password" name="reg-password" placeholder="••••••••" required>
                         </div>
-                        <button type="submit" class="reserve-btn btn-highlight" style="width: 100%;">Create Account</button>
-                        <p style="margin-top: 15px; font-size: 0.9rem;">Have an account? <a href="#" onclick="event.preventDefault(); toggleAuth()" class="toggle-link">Log in</a></p>
+                        <button type="submit" class="btn-gold full-width">Create VIP Account</button>
+                        <p class="auth-switch-text">Already a guest? <a href="javascript:void(0)" onclick="toggleAuth('login')" class="toggle-link">Sign In</a></p>
                     </form>
                 </div>
 
                 <div class="auth-form">
                     <h3>Welcome Back</h3>
-                    <p>Log in to access your LUNAR dashboard.</p>
+                    <p>Sign in to access your LUNAR guest account and stays.</p>
                     <form onsubmit="loginUser(event)">
                         <div class="form-group">
                             <label for="login-email">Email Address</label>
-                            <input type="email" id="login-email" name="login-email" placeholder="email@example.com" required>
+                            <input type="email" id="login-email" name="login-email" placeholder="name@example.com" required>
                         </div>
                         <div class="form-group">
                             <label for="login-password">Password</label>
                             <input type="password" id="login-password" name="login-password" placeholder="••••••••" required>
                         </div>
-                        <button type="submit" class="reserve-btn btn-highlight" style="width: 100%;">Log In</button>
-                        <p style="margin-top: 15px; font-size: 0.9rem;">Don't have an account? <a href="#" onclick="event.preventDefault(); toggleAuth()" class="toggle-link">Register</a></p>
+                        <button type="submit" class="btn-gold full-width">Sign In</button>
+                        <p class="auth-switch-text">New to LUNAR? <a href="javascript:void(0)" onclick="toggleAuth('register')" class="toggle-link">Register Here</a></p>
                     </form>
                 </div>
             </div>
@@ -390,56 +521,41 @@
     </div>
 
     <!-- BROCHURE SECTION -->
-    <section id="brochure-section" style="padding: 50px 20px; background-color: #fff;">
-        <div class="section-header">
-            <h3>The LUNAR Brochure</h3>
-            <p>Take a piece of paradise with you.</p>
+    <section id="brochure-section" class="brochure-section">
+        <div class="section-title-block">
+            <span class="sub-heading">THE DIGITAL CATALOGUE</span>
+            <h2>The LUNAR 2026 Experience Guide</h2>
+            <div class="gold-divider"></div>
         </div>
 
         <div class="brochure-container">
             <div class="brochure-preview">
                 <div class="brochure-page">
-                    <span>LUNAR 2026</span>
-                    <small>Official Guide</small>
+                    <span class="brand-text">LUNAR</span>
+                    <small>OFFICIAL MAGAZINE 2026</small>
                 </div>
             </div>
 
             <div class="brochure-info">
-                <h4>What's Inside?</h4>
-                <ul>
-                    <li>Exclusive Penthouse Floorplans</li>
-                    <li>Full 5-Course Tasting Menus</li>
-                    <li>Private Safari Map & Routes</li>
-                    <li>Seasonal Wellness Retreat Dates</li>
+                <h3>What's Inside?</h3>
+                <ul class="brochure-list">
+                    <li>Architectural floorplans of Penthouse Suites</li>
+                    <li>Full 7-Course tasting menus and cocktail pairings</li>
+                    <li>Private helicopter flight itineraries and wildlife maps</li>
+                    <li>Seasonal wellness retreat programs</li>
                 </ul>
-                <p>Download our 24-page digital brochure for offline viewing.</p>
-
-                <a href="#" class="reserve-btn btn-highlight" download>Download PDF Brochure (12MB)</a>
+                <p>Download our official digital brochure for offline exploration.</p>
+                <button onclick="downloadBrochurePDF()" class="btn-gold-lg inline-btn">Download Brochure (PDF 12MB)</button>
             </div>
         </div>
     </section>
 
     <!-- FULL-PAGE HOTEL SHOWCASE VIEW -->
     <div id="hotel-fullpage-view" class="hotel-fullpage" style="display: none;">
-        <header class="fp-nav">
-            <button type="button" class="fp-back-btn" onclick="closeHotelDetailPage()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                <span>Back to Accommodations</span>
-            </button>
-            <div class="fp-nav-brand">
-                <span class="fp-brand-title">LUNAR RESORT</span>
-                <span class="fp-brand-sub">Accommodations & Suites</span>
-            </div>
-            <button type="button" class="fp-close-btn" onclick="closeHotelDetailPage()" title="Close">&times;</button>
-        </header>
-
         <main class="fp-content">
             <section class="fp-room-header">
                 <div class="fp-header-left">
-                    <div class="fp-badge-container">
-                        <span id="fp-badge" class="fp-badge" style="display: none;"></span>
-                        <span class="fp-category-tag">LUNAR Signature Stay</span>
-                    </div>
+                    <span class="fp-category-tag">LUNAR SIGNATURE STAY</span>
                     <h1 id="fp-title" class="fp-title">Room Name</h1>
                     <p id="fp-tagline" class="fp-tagline">Room Tagline</p>
                 </div>
@@ -454,22 +570,16 @@
             <section class="fp-gallery-section">
                 <div class="fp-gallery-hero">
                     <img id="fp-main-img" src="" alt="Room Showcase" class="fp-main-img">
-                    <div class="fp-gallery-badge">
-                        <span id="fp-photo-counter">Photo 1 of 4</span>
-                    </div>
                 </div>
-                <div class="fp-thumbnails" id="fp-thumbnail-strip"></div>
+                <div class="fp-thumbnail-strip" id="fp-thumbnail-strip">
+                    <!-- Dynamic thumbs loaded by JS -->
+                </div>
             </section>
 
             <section class="fp-details-section">
-                <div class="fp-specs-grid" id="fp-specs-grid"></div>
                 <div class="fp-overview-block">
                     <h3>The Experience</h3>
                     <p id="fp-description">Room description...</p>
-                </div>
-                <div class="fp-amenities-block">
-                    <h3>Included In-Suite Luxuries</h3>
-                    <ul class="fp-amenities-list" id="fp-amenities-list"></ul>
                 </div>
             </section>
 
@@ -481,38 +591,38 @@
 
                 <div class="fp-dates-row">
                     <div class="fp-date-box">
-                        <label for="fp-checkin">Check-in</label>
-                        <input type="date" id="fp-checkin" onchange="updateStayCalculation()">
-                    </div>
-                    <div class="fp-date-separator">
-                        <span>to</span>
+                        <label>Check-in Date</label>
+                        <div class="fp-date-field">
+                            <input type="text" id="fp-checkin" class="fp-date-input" readonly>
+                            <button type="button" class="fp-date-trigger" onclick="toggleCalendar('fp-checkin')" aria-label="Open check-in calendar">▾</button>
+                            <div class="fp-calendar-popover" data-target="fp-checkin"></div>
+                        </div>
                     </div>
                     <div class="fp-date-box">
-                        <label for="fp-checkout">Check-out</label>
-                        <input type="date" id="fp-checkout" onchange="updateStayCalculation()">
+                        <label>Check-out Date</label>
+                        <div class="fp-date-field">
+                            <input type="text" id="fp-checkout" class="fp-date-input" readonly>
+                            <button type="button" class="fp-date-trigger" onclick="toggleCalendar('fp-checkout')" aria-label="Open check-out calendar">▾</button>
+                            <div class="fp-calendar-popover" data-target="fp-checkout"></div>
+                        </div>
                     </div>
-                    <div class="fp-duration-badge" id="fp-duration-tag">1 Night</div>
                 </div>
+
+                <div class="fp-nights-counter" id="fp-nights-count-badge">Duration: 1 Night</div>
 
                 <div class="fp-plan-selector">
                     <div class="fp-plan-card active" id="plan-card-deposit" onclick="setStayPaymentType('Deposit')">
-                        <div class="fp-plan-radio">
-                            <input type="radio" name="fp-payment-plan" id="radio-plan-deposit" value="Deposit" checked>
-                        </div>
                         <div class="fp-plan-info">
                             <span class="fp-plan-name">Pay 50% Deposit Now</span>
-                            <span class="fp-plan-sub">Secure your suite reservation today; pay the remainder upon check-in.</span>
+                            <span class="fp-plan-sub">Secure your room today; pay balance upon arrival.</span>
                         </div>
                         <div class="fp-plan-price" id="fp-plan-deposit-amt">KSh 0.00</div>
                     </div>
 
                     <div class="fp-plan-card" id="plan-card-full" onclick="setStayPaymentType('Full')">
-                        <div class="fp-plan-radio">
-                            <input type="radio" name="fp-payment-plan" id="radio-plan-full" value="Full">
-                        </div>
                         <div class="fp-plan-info">
                             <span class="fp-plan-name">Pay Full Amount</span>
-                            <span class="fp-plan-sub">Complete full payment now for seamless VIP keycard handover.</span>
+                            <span class="fp-plan-sub">Complete full payment for seamless keycard handover.</span>
                         </div>
                         <div class="fp-plan-price" id="fp-plan-full-amt">KSh 0.00</div>
                     </div>
@@ -521,45 +631,34 @@
 
             <section class="fp-payment-section">
                 <div class="fp-payment-header">
-                    <div class="fp-secure-tag">
-                        <span>256-Bit Encrypted Payment</span>
-                    </div>
                     <h2>Payment Details</h2>
-                    <p>Complete your reservation details below to finalize your booking.</p>
+                    <p>256-Bit Encrypted Secure Checkout</p>
                 </div>
 
                 <div class="fp-payment-grid">
                     <div class="fp-payment-inputs-col">
                         <label class="fp-field-section-title">Select Payment Method</label>
                         <div class="fp-methods-row">
-                            <button type="button" class="fp-method-card active" data-method="M-Pesa" onclick="selectFpPaymentMethod('M-Pesa')">
-                                <span class="fp-method-title">M-Pesa</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="Credit/Debit Card" onclick="selectFpPaymentMethod('Credit/Debit Card')">
-                                <span class="fp-method-title">Card</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="PayPal" onclick="selectFpPaymentMethod('PayPal')">
-                                <span class="fp-method-title">PayPal</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="Apple Pay" onclick="selectFpPaymentMethod('Apple Pay')">
-                                <span class="fp-method-title">Apple Pay</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="Cash" onclick="selectFpPaymentMethod('Cash')">
-                                <span class="fp-method-title">Cash</span>
-                            </button>
+                            <button type="button" class="fp-method-card active" data-method="M-Pesa" onclick="selectFpPaymentMethod('M-Pesa')">M-Pesa</button>
+                            <button type="button" class="fp-method-card" data-method="Credit/Debit Card" onclick="selectFpPaymentMethod('Credit/Debit Card')">Card</button>
+                            <button type="button" class="fp-method-card" data-method="PayPal" onclick="selectFpPaymentMethod('PayPal')">PayPal</button>
+                            <button type="button" class="fp-method-card" data-method="Apple Pay" onclick="selectFpPaymentMethod('Apple Pay')">Apple Pay</button>
+                            <button type="button" class="fp-method-card" data-method="Cash" onclick="selectFpPaymentMethod('Cash')">Cash</button>
                         </div>
-                        <input type="hidden" id="fp-active-payment-method" value="M-Pesa">
-                        <div id="fp-method-specific-fields" class="fp-specific-fields"></div>
 
-                        <label class="fp-field-section-title" style="margin-top: 25px;">Guest Contact Information</label>
+                        <!-- Dynamic Specific Input Container for Hotel -->
+                        <div id="fp-payment-fields-dynamic" class="fp-dynamic-input-area">
+                            <!-- Injected dynamically based on selected payment method -->
+                        </div>
+
                         <div class="fp-guest-grid">
                             <div class="fp-input-wrap">
                                 <label for="fp-guest-name">Primary Guest Name</label>
-                                <input type="text" id="fp-guest-name" placeholder="Full name for hotel registration" required>
+                                <input type="text" id="fp-guest-name" placeholder="Full name for check-in" required>
                             </div>
                             <div class="fp-input-wrap">
                                 <label for="fp-guest-email">Email Address</label>
-                                <input type="email" id="fp-guest-email" placeholder="For instant voucher confirmation" required>
+                                <input type="email" id="fp-guest-email" placeholder="name@example.com" required>
                             </div>
                         </div>
                     </div>
@@ -569,26 +668,22 @@
                             <h3>Booking Summary</h3>
                             <div class="fp-sum-row">
                                 <span id="fp-sum-room-name">Superior Room</span>
-                                <span id="fp-sum-calc-rate">KSh 23,400.00 × 1 night</span>
-                            </div>
-                            <div class="fp-sum-row">
-                                <span>Resort Services & Luxury Tax</span>
-                                <span class="fp-text-gold">Included</span>
+                                <span id="fp-sum-calc-rate">KSh 23,400.00</span>
                             </div>
                             <div class="fp-sum-row">
                                 <span>Payment Type</span>
-                                <span id="fp-sum-plan-label" class="fp-text-dark">50% Deposit</span>
+                                <span id="fp-sum-plan-label">50% Deposit</span>
                             </div>
                             <div class="fp-sum-divider"></div>
                             <div class="fp-sum-total-group">
-                                <div class="fp-total-label-box">
-                                    <span class="fp-total-title">Amount Payable Now</span>
-                                    <span class="fp-balance-note" id="fp-sum-balance-due">Balance due at check-in: KSh 11,700.00</span>
+                                <div>
+                                    <span class="fp-total-title">Total Payable Now</span>
+                                    <span class="fp-balance-note" id="fp-sum-balance-due">Balance due: KSh 11,700.00</span>
                                 </div>
                                 <div class="fp-total-price" id="fp-sum-now-amount">KSh 11,700.00</div>
                             </div>
-                            <button type="button" class="fp-book-btn" onclick="submitFullpageBooking()">
-                                <span id="fp-book-btn-label">Confirm &amp; Pay KSh 11,700.00</span>
+                            <button type="button" class="btn-gold-lg full-width" onclick="submitFullpageBooking()">
+                                <span id="fp-book-btn-label">Confirm & Pay</span>
                             </button>
                         </div>
                     </div>
@@ -597,27 +692,12 @@
         </main>
     </div>
 
-    <!-- UNIVERSAL SHOWCASE & PAYMENT VIEW -->
+    <!-- UNIVERSAL SHOWCASE VIEW -->
     <div id="universal-fullpage-view" class="hotel-fullpage" style="display: none;">
-        <header class="fp-nav">
-            <button type="button" class="fp-back-btn" onclick="closeUniversalDetailPage()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                <span>Back to Services</span>
-            </button>
-            <div class="fp-nav-brand">
-                <span class="fp-brand-title">LUNAR RESORT</span>
-                <span class="fp-brand-sub" id="univ-fp-dept-tag">Service Booking</span>
-            </div>
-            <button type="button" class="fp-close-btn" onclick="closeUniversalDetailPage()" title="Close">&times;</button>
-        </header>
-
         <main class="fp-content">
             <section class="fp-room-header">
                 <div class="fp-header-left">
-                    <div class="fp-badge-container">
-                        <span id="univ-fp-badge" class="fp-badge" style="display: none;"></span>
-                        <span class="fp-category-tag" id="univ-fp-category">LUNAR Experience</span>
-                    </div>
+                    <span class="fp-category-tag" id="univ-fp-category">LUNAR EXPERIENCE</span>
                     <h1 id="univ-fp-title" class="fp-title">Service Name</h1>
                     <p id="univ-fp-tagline" class="fp-tagline">Service Tagline</p>
                 </div>
@@ -645,54 +725,33 @@
             <section class="fp-stay-section">
                 <div class="fp-section-title">
                     <h3>Schedule Your Experience</h3>
-                    <p>Select your date, time, and preferences</p>
+                    <p>Select your preferred reservation date and time</p>
                 </div>
 
-                <div class="fp-dates-row">
+                <div class="fp-dates-row full-width-date">
                     <div class="fp-date-box">
-                        <label for="univ-fp-date">Date & Time</label>
-                        <input type="datetime-local" id="univ-fp-date">
-                    </div>
-                </div>
-
-                <div id="ballroom-event-type-fields" class="fp-event-type-fields" style="display: none;">
-                    <div class="fp-input-wrap">
-                        <label for="ballroom-event-type">Type of Event</label>
-                        <select id="ballroom-event-type">
-                            <option value="Wedding">Wedding</option>
-                            <option value="Graduation">Graduation</option>
-                            <option value="Gala">Gala</option>
-                            <option value="Corporate Meeting">Corporate Meeting</option>
-                            <option value="Conference">Conference</option>
-                            <option value="Private Party">Private Party</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div id="ballroom-custom-event-wrap" class="fp-input-wrap" style="display: none;">
-                        <label for="ballroom-custom-event">Describe Your Event</label>
-                        <input type="text" id="ballroom-custom-event" placeholder="Enter your event type">
-                    </div>
-                </div>
-
-                <div class="fp-plan-selector" id="univ-plan-selector">
-                    <div class="fp-plan-card active" id="univ-plan-deposit" onclick="setUnivPaymentType('Deposit')">
-                        <div class="fp-plan-radio">
-                            <input type="radio" name="univ-payment-plan" id="univ-radio-deposit" value="Deposit" checked>
+                        <label>Date & Time</label>
+                        <div class="fp-date-field fp-date-time-field">
+                            <input type="text" id="univ-fp-date" class="fp-date-input" readonly>
+                            <button type="button" class="fp-date-trigger" onclick="toggleCalendar('univ-fp-date')" aria-label="Open reservation calendar">▾</button>
+                            <div class="fp-calendar-popover" data-target="univ-fp-date"></div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="fp-plan-selector">
+                    <div class="fp-plan-card active" id="univ-plan-deposit" onclick="setUnivPaymentType('Deposit')">
                         <div class="fp-plan-info">
                             <span class="fp-plan-name">Pay 50% Deposit Now</span>
-                            <span class="fp-plan-sub">Secure your reservation; pay balance upon arrival.</span>
+                            <span class="fp-plan-sub">Secure your spot; pay balance upon arrival.</span>
                         </div>
                         <div class="fp-plan-price" id="univ-plan-deposit-amt">KSh 0.00</div>
                     </div>
 
                     <div class="fp-plan-card" id="univ-plan-full" onclick="setUnivPaymentType('Full')">
-                        <div class="fp-plan-radio">
-                            <input type="radio" name="univ-payment-plan" id="univ-radio-full" value="Full">
-                        </div>
                         <div class="fp-plan-info">
                             <span class="fp-plan-name">Pay Full Amount</span>
-                            <span class="fp-plan-sub">Complete full payment now for seamless VIP access.</span>
+                            <span class="fp-plan-sub">Complete full payment for seamless priority access.</span>
                         </div>
                         <div class="fp-plan-price" id="univ-plan-full-amt">KSh 0.00</div>
                     </div>
@@ -701,9 +760,6 @@
 
             <section class="fp-payment-section">
                 <div class="fp-payment-header">
-                    <div class="fp-secure-tag">
-                        <span>256-Bit Encrypted Payment</span>
-                    </div>
                     <h2>Payment Details</h2>
                 </div>
 
@@ -711,24 +767,17 @@
                     <div class="fp-payment-inputs-col">
                         <label class="fp-field-section-title">Select Payment Method</label>
                         <div class="fp-methods-row">
-                            <button type="button" class="fp-method-card active" data-method="M-Pesa" onclick="selectUnivPaymentMethod('M-Pesa')">
-                                <span class="fp-method-title">M-Pesa</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="Credit/Debit Card" onclick="selectUnivPaymentMethod('Credit/Debit Card')">
-                                <span class="fp-method-title">Card</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="PayPal" onclick="selectUnivPaymentMethod('PayPal')">
-                                <span class="fp-method-title">PayPal</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="Apple Pay" onclick="selectUnivPaymentMethod('Apple Pay')">
-                                <span class="fp-method-title">Apple Pay</span>
-                            </button>
-                            <button type="button" class="fp-method-card" data-method="Cash" onclick="selectUnivPaymentMethod('Cash')">
-                                <span class="fp-method-title">Cash</span>
-                            </button>
+                            <button type="button" class="fp-method-card active" data-method="M-Pesa" onclick="selectUnivPaymentMethod('M-Pesa')">M-Pesa</button>
+                            <button type="button" class="fp-method-card" data-method="Credit/Debit Card" onclick="selectUnivPaymentMethod('Credit/Debit Card')">Card</button>
+                            <button type="button" class="fp-method-card" data-method="PayPal" onclick="selectUnivPaymentMethod('PayPal')">PayPal</button>
+                            <button type="button" class="fp-method-card" data-method="Apple Pay" onclick="selectUnivPaymentMethod('Apple Pay')">Apple Pay</button>
+                            <button type="button" class="fp-method-card" data-method="Cash" onclick="selectUnivPaymentMethod('Cash')">Cash</button>
                         </div>
 
-                        <div id="univ-method-specific-fields" class="fp-specific-fields"></div>
+                        <!-- Dynamic Specific Input Container for Universal Services -->
+                        <div id="univ-payment-fields-dynamic" class="fp-dynamic-input-area">
+                            <!-- Injected dynamically based on selected payment method -->
+                        </div>
 
                         <div class="fp-guest-grid">
                             <div class="fp-input-wrap">
@@ -737,7 +786,7 @@
                             </div>
                             <div class="fp-input-wrap">
                                 <label for="univ-guest-email">Email Address</label>
-                                <input type="email" id="univ-guest-email" placeholder="For instant confirmation voucher" required>
+                                <input type="email" id="univ-guest-email" placeholder="name@example.com" required>
                             </div>
                         </div>
                     </div>
@@ -750,18 +799,18 @@
                                 <span id="univ-sum-rate">KSh 0.00</span>
                             </div>
                             <div class="fp-sum-row">
-                                <span>Payment Type</span>
-                                <span id="univ-sum-plan-label" class="fp-text-dark">Deposit</span>
+                                <span>Payment Plan</span>
+                                <span id="univ-sum-plan-label">Deposit</span>
                             </div>
                             <div class="fp-sum-divider"></div>
                             <div class="fp-sum-total-group">
-                                <div class="fp-total-label-box">
-                                    <span class="fp-total-title">Amount Payable Now</span>
+                                <div>
+                                    <span class="fp-total-title">Payable Now</span>
                                     <span class="fp-balance-note" id="univ-sum-balance-due">Balance due: KSh 0.00</span>
                                 </div>
                                 <div class="fp-total-price" id="univ-sum-now-amount">KSh 0.00</div>
                             </div>
-                            <button type="button" class="fp-book-btn" onclick="submitUniversalBooking()">
+                            <button type="button" class="btn-gold-lg full-width" onclick="submitUniversalBooking()">
                                 <span id="univ-book-btn-label">Confirm & Pay</span>
                             </button>
                         </div>
@@ -771,37 +820,37 @@
         </main>
     </div>
 
-    <!-- FOOTER SECTION -->
+    <!-- FOOTER -->
     <footer class="lunar-footer">
         <div class="footer-container">
-            <div class="footer-column">
-                <h4>Our Story</h4>
-                <p>Founded in 1998, LUNAR Resort began as a small seaside retreat. Today, it stands as a pinnacle of luxury, blending wild adventure with world-class wellness.</p>
+            <div class="footer-column brand-col">
+                <div class="brand-logo">
+                    <span class="logo-title">LUNAR</span>
+                    <span class="logo-subtitle">RESORT & SPA</span>
+                </div>
+                <p>Designed as an urban sanctuary along the coastal valley, LUNAR blends contemporary architectural luxury with natural tranquility.</p>
             </div>
 
             <div class="footer-column">
-                <h4>Quick Links</h4>
+                <h4>Collections</h4>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Download Brochure (PDF)</a></li>
+                    <li><a href="javascript:void(0)" onclick="showServices('Hotel')">Accommodations</a></li>
+                    <li><a href="javascript:void(0)" onclick="showServices('Restaurant')">Dining & Bars</a></li>
+                    <li><a href="javascript:void(0)" onclick="showServices('Spa')">Wellness & Spa</a></li>
+                    <li><a href="javascript:void(0)" onclick="showServices('Events')">Events & Galas</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h4>Contact Us</h4>
                 <p>101 Moonlit Drive, Coastal Valley</p>
-                <p><strong>Hotel:</strong> +1 234 567 01</p>
-                <p><strong>Restaurant:</strong> +1 234 567 02</p>
-                <p><strong>Spa & Wellness:</strong> +1 234 567 03</p>
-                <p><strong>Travels & Activities:</strong> +1 234 567 04</p>
-                <p><strong>Events & Meetings:</strong> +1 234 567 05</p>
-                <p><strong>Email:</strong> info@lunarresort.com</p>
+                <p><strong>Concierge:</strong> +1 234 567 01</p>
+                <p><strong>Reservations:</strong> +1 234 567 02</p>
+                <p><strong>Email:</strong> reservations@lunarresort.com</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 LUNAR Resort. Designed for the Ultimate Experience.</p>
+            <p>&copy; 2026 LUNAR RESORT & SPA. ALL RIGHTS RESERVED.</p>
         </div>
     </footer>
 
