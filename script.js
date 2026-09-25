@@ -792,3 +792,352 @@ document.addEventListener('DOMContentLoaded', function() {
         try { updatePostLoginUI(); } catch(e) {}
     }
 });
+
+const ADMIN_USERS = {
+    'manager@lunar.com': {
+        email: 'manager@lunar.com',
+        password: 'Manager@2026',
+        name: 'Njeri Kamau',
+        role: 'Manager',
+        department: 'Executive',
+        allowed: ['accomodation', 'dining', 'wellness', 'experiences', 'events']
+    },
+    'director@lunar.com': {
+        email: 'director@lunar.com',
+        password: 'Director@2026',
+        name: 'Alicia Wanjiru',
+        role: 'Director',
+        department: 'Executive',
+        allowed: ['accomodation', 'dining', 'wellness', 'experiences', 'events']
+    },
+    'accomodation@lunar.com': {
+        email: 'accomodation@lunar.com',
+        password: 'Accomodation@2026',
+        name: 'Samuel Otieno',
+        role: 'Accommodation Lead',
+        department: 'accomodation',
+        allowed: ['accomodation']
+    },
+    'dining@lunar.com': {
+        email: 'dining@lunar.com',
+        password: 'Dining@2026',
+        name: 'Grace Mumo',
+        role: 'Dining Lead',
+        department: 'dining',
+        allowed: ['dining']
+    },
+    'wellness@lunar.com': {
+        email: 'wellness@lunar.com',
+        password: 'Wellness@2026',
+        name: 'Leah Njeri',
+        role: 'Wellness Lead',
+        department: 'wellness',
+        allowed: ['wellness']
+    },
+    'experiences@lunar.com': {
+        email: 'experiences@lunar.com',
+        password: 'Experiences@2026',
+        name: 'David Kiptoo',
+        role: 'Experiences Lead',
+        department: 'experiences',
+        allowed: ['experiences']
+    },
+    'events@lunar.com': {
+        email: 'events@lunar.com',
+        password: 'Events@2026',
+        name: 'Mariam Achieng',
+        role: 'Events Lead',
+        department: 'events',
+        allowed: ['events']
+    }
+};
+
+function getCurrentAdminUser() {
+    const stored = localStorage.getItem('lunarAdminUser');
+    if (!stored) return null;
+
+    try {
+        return JSON.parse(stored);
+    } catch (error) {
+        return null;
+    }
+}
+
+function setCurrentAdminUser(user) {
+    localStorage.setItem('lunarAdminUser', JSON.stringify({
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        department: user.department,
+        allowed: user.allowed
+    }));
+}
+
+function showAdminLogin(message = '') {
+    const panel = document.getElementById('admin-auth-panel');
+    const layout = document.querySelector('.admin-layout');
+    const notice = document.getElementById('admin-login-message');
+
+    if (panel) panel.style.display = 'flex';
+    if (layout) layout.style.display = 'none';
+    if (notice) {
+        notice.textContent = message;
+        notice.style.color = message.includes('Invalid') || message.includes('access') ? '#ff8a80' : '#d4af37';
+    }
+}
+
+function hideAdminLogin() {
+    const panel = document.getElementById('admin-auth-panel');
+    const layout = document.querySelector('.admin-layout');
+    if (panel) panel.style.display = 'none';
+    if (layout) layout.style.display = 'flex';
+}
+
+function closeAdminLogin() {
+    const currentUser = getCurrentAdminUser();
+    if (!currentUser) {
+        showAdminLogin('Please sign in to access the admin portal.');
+        return;
+    }
+    hideAdminLogin();
+}
+
+function logoutAdmin() {
+    localStorage.removeItem('lunarAdminUser');
+    showAdminLogin('You have been signed out.');
+}
+
+function applyAdminPermissions(user) {
+    const allowedTabs = new Set(user.allowed || ['accomodation']);
+    const allNavButtons = document.querySelectorAll('.nav-item');
+    const allTabs = document.querySelectorAll('.admin-tab-content');
+
+    allNavButtons.forEach(button => {
+        const tabName = button.dataset.tab;
+        const permitted = allowedTabs.has(tabName);
+        button.style.display = permitted ? 'flex' : 'none';
+        button.disabled = !permitted;
+        button.classList.toggle('active', permitted && button.classList.contains('active'));
+    });
+
+    const defaultTab = Array.from(allNavButtons).find(button => allowedTabs.has(button.dataset.tab))?.dataset.tab || 'accomodation';
+    allTabs.forEach(tab => {
+        const tabName = tab.id.replace('tab-', '');
+        const permitted = allowedTabs.has(tabName);
+        tab.classList.toggle('active', tabName === defaultTab && permitted);
+        tab.style.display = permitted && tabName === defaultTab ? 'block' : 'none';
+    });
+
+    const visibleView = Array.from(allNavButtons).find(button => allowedTabs.has(button.dataset.tab));
+    if (visibleView) {
+        document.querySelectorAll('.nav-item').forEach(button => {
+            button.classList.toggle('active', button === visibleView);
+        });
+    }
+
+    const titleMap = {
+        'accomodation': 'Accommodation Department',
+        'dining': 'Dining Department',
+        'wellness': 'Wellness Department',
+        'experiences': 'Experiences Department',
+        'events': 'Events Department'
+    };
+    const pageTitle = document.getElementById('page-title');
+    if (pageTitle) pageTitle.innerText = titleMap[defaultTab] || 'Admin Portal';
+
+    const adminName = document.querySelector('.admin-name');
+    const adminRole = document.querySelector('.admin-role');
+    if (adminName) adminName.innerText = user.name;
+    if (adminRole) adminRole.innerText = `${user.role} · ${user.department}`;
+}
+
+function loginAdmin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('admin-email').value.trim().toLowerCase();
+    const password = document.getElementById('admin-password').value;
+    const user = ADMIN_USERS[email];
+    const notice = document.getElementById('admin-login-message');
+
+    if (!user || user.password !== password) {
+        if (notice) {
+            notice.textContent = 'Invalid email or password. Please use one of the demo credentials shown below.';
+            notice.style.color = '#ff8a80';
+        }
+        return;
+    }
+
+    setCurrentAdminUser(user);
+    hideAdminLogin();
+    applyAdminPermissions(user);
+}
+
+// INITIALIZATION
+document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = getCurrentAdminUser();
+    if (currentUser) {
+        applyAdminPermissions(currentUser);
+        hideAdminLogin();
+    } else {
+        showAdminLogin('Please sign in to access the admin portal.');
+    }
+
+    renderBookings();
+    renderInventory();
+    renderGuests();
+});
+
+// SWITCH TAB
+function switchAdminTab(event, tabId) {
+    const currentUser = getCurrentAdminUser();
+    if (!currentUser) {
+        showAdminLogin('Please sign in to continue.');
+        return;
+    }
+
+    const allowedTabs = new Set(currentUser.allowed || ['accomodation']);
+    if (!allowedTabs.has(tabId)) {
+        alert(`Access denied: ${currentUser.role} can only view assigned departments.`);
+        return;
+    }
+
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.admin-tab-content').forEach(tab => tab.classList.remove('active'));
+
+    event.currentTarget.classList.add('active');
+    const targetTab = document.getElementById(`tab-${tabId}`);
+    if (targetTab) targetTab.classList.add('active');
+
+    const titleMap = {
+        'accomodation': 'Accommodation Department',
+        'dining': 'Dining Department',
+        'wellness': 'Wellness Department',
+        'experiences': 'Experiences Department',
+        'events': 'Events Department'
+    };
+    const pageTitle = document.getElementById('page-title');
+    if (pageTitle) pageTitle.innerText = titleMap[tabId] || 'Admin Portal';
+}
+
+const mockReservations = [
+    { ref: 'LNR-849201', guest: 'Lady Eleanor Vance', service: 'Presidential Suite', dates: '26 Sep - 29 Sep', payment: 'M-Pesa', amount: 468000, status: 'Confirmed' },
+    { ref: 'LNR-502918', guest: 'Dr. Harrison Ford', service: 'Private Chopper Flight', dates: '27 Sep 2026, 10:00 AM', payment: 'Credit Card', amount: 58500, status: 'Deposit Paid' },
+    { ref: 'LNR-103948', guest: 'Sophia Martinez', service: 'The Lunar Penthouse', dates: '01 Oct - 05 Oct', payment: 'PayPal', amount: 1300000, status: 'Confirmed' },
+    { ref: 'LNR-774920', guest: 'Michael Chen', service: 'Deep Tissue Body Massage', dates: '26 Sep 2026, 02:00 PM', payment: 'Cash', amount: 15600, status: 'Confirmed' }
+];
+
+const mockRooms = [
+    { room: 'Suite 101 - Superior Room', status: 'Available', rate: 'KSh 23,400' },
+    { room: 'Suite 102 - Superior Room', status: 'Occupied', rate: 'KSh 23,400' },
+    { room: 'Suite 201 - Deluxe Ocean', status: 'Occupied', rate: 'KSh 32,500' },
+    { room: 'Suite 301 - Presidential', status: 'Occupied', rate: 'KSh 156,000' },
+    { room: 'Penthouse - Lunar Top Floor', status: 'Available', rate: 'KSh 325,000' }
+];
+
+const mockGuests = [
+    { tier: 'Diamond VIP', name: 'Lady Eleanor Vance', email: 'eleanor@vanceestate.co.uk', stays: 14, spend: 'KSh 3,420,000' },
+    { tier: 'Platinum VIP', name: 'Dr. Harrison Ford', email: 'harrison@fordlabs.com', stays: 6, spend: 'KSh 890,000' },
+    { tier: 'Gold VIP', name: 'Sophia Martinez', email: 'sophia.m@luxurytravel.com', stays: 3, spend: 'KSh 1,450,000' }
+];
+
+function renderBookings() {
+    const recentBody = document.getElementById('table-recent-bookings');
+    const allBody = document.getElementById('table-all-reservations');
+
+    if (!recentBody) return;
+
+    recentBody.innerHTML = mockReservations.map(res => `
+        <tr>
+            <td><strong>${res.ref}</strong></td>
+            <td>${res.guest}</td>
+            <td>${res.service}</td>
+            <td>${res.dates}</td>
+            <td>${res.payment}</td>
+            <td>KSh ${res.amount.toLocaleString()}</td>
+            <td><span class="tag-status ${res.status === 'Confirmed' ? 'confirmed' : 'deposit'}">${res.status}</span></td>
+            <td><button class="btn-dark-sm" onclick="alert('Viewing booking ${res.ref}')">Details</button></td>
+        </tr>
+    `).join('');
+
+    if (allBody) {
+        allBody.innerHTML = recentBody.innerHTML;
+    }
+}
+
+function renderInventory() {
+    const container = document.getElementById('inventory-container');
+    if (!container) return;
+
+    container.innerHTML = mockRooms.map(rm => `
+        <div class="inv-card">
+            <div class="inv-header">
+                <span class="inv-title">${rm.room}</span>
+                <span class="inv-status ${rm.status.toLowerCase()}">${rm.status}</span>
+            </div>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:15px;">Standard Nightly Rate: ${rm.rate}</p>
+            <button class="btn-dark-sm full-width" onclick="toggleRoomStatus('${rm.room}')">Toggle Status</button>
+        </div>
+    `).join('');
+}
+
+function renderGuests() {
+    const guestBody = document.getElementById('table-guests');
+    if (!guestBody) return;
+
+    guestBody.innerHTML = mockGuests.map(g => `
+        <tr>
+            <td><span style="color:var(--gold); font-weight:700;">${g.tier}</span></td>
+            <td>${g.name}</td>
+            <td>${g.email}</td>
+            <td>${g.stays} Stays</td>
+            <td>${g.spend}</td>
+            <td><button class="btn-dark-sm" onclick="alert('Opening guest profile for ${g.name}')">Profile</button></td>
+        </tr>
+    `).join('');
+}
+
+function triggerQuickReservation() {
+    alert("Opening VIP Manual Reservation Overlay...");
+}
+
+function filterReservations() {
+    const searchInput = document.getElementById('search-reservations');
+    const statusFilter = document.getElementById('filter-status');
+    const allBody = document.getElementById('table-all-reservations');
+
+    if (!searchInput || !statusFilter || !allBody) return;
+
+    const query = searchInput.value.trim().toLowerCase();
+    const statusValue = statusFilter.value;
+
+    const filtered = mockReservations.filter(res => {
+        const matchesSearch = !query || res.guest.toLowerCase().includes(query) || res.ref.toLowerCase().includes(query);
+        const matchesStatus = statusValue === 'ALL' || res.status === statusValue;
+        return matchesSearch && matchesStatus;
+    });
+
+    allBody.innerHTML = filtered.map(res => `
+        <tr>
+            <td><strong>${res.ref}</strong></td>
+            <td>${res.guest}</td>
+            <td>${res.service}</td>
+            <td>${res.dates}</td>
+            <td>${res.payment}</td>
+            <td>KSh ${res.amount.toLocaleString()}</td>
+            <td><span class="tag-status ${res.status === 'Confirmed' ? 'confirmed' : 'deposit'}">${res.status}</span></td>
+            <td><button class="btn-dark-sm" onclick="alert('Viewing booking ${res.ref}')">Details</button></td>
+        </tr>
+    `).join('');
+}
+
+function toggleRoomStatus(roomName) {
+    const room = mockRooms.find(item => item.room === roomName);
+    if (!room) return;
+
+    room.status = room.status === 'Available' ? 'Occupied' : 'Available';
+    renderInventory();
+}
+
+function exportCSV(tableId) {
+    alert(`Exporting ${tableId} contents to CSV file...`);
+}

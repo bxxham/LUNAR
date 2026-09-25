@@ -6,258 +6,233 @@
     <title>LUNAR | Management Portal &amp; Operations</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="admin-body">
-
-    <!-- ADMIN AUTHENTICATION SCREEN -->
-    <section id="admin-auth">
-        <div class="auth-card">
-            <div class="auth-container" id="admin-sliding-box">
-                <!-- Login Form -->
-                <div class="admin-auth-form">
-                    <div style="margin-bottom: 12px;">
-                        <span style="color: #D4AF37; font-size: 1.8rem; font-weight: 700; font-family: 'Cinzel', serif;">LUNAR</span>
-                    </div>
-                    <h3 style="margin: 0 0 6px 0;">Management Portal</h3>
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 18px;">Access Restricted to Authorized Personnel</p>
-                    <form onsubmit="adminLogin(event)">
-                        <div class="form-group" style="text-align: left;">
-                            <label for="admin-role">Select Department</label>
-                            <select id="admin-role" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
-                                <option value="hotel">Hotel &amp; Poshtel Accommodations</option>
-                                <option value="restaurant">Restaurant &amp; Bar</option>
-                                <option value="spa">Wellness &amp; Spa</option>
-                                <option value="events">Meetings &amp; Events</option>
-                                <option value="travels">Travels &amp; Activities</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="text-align: left;">
-                            <label for="admin-pass">Access Key</label>
-                            <input type="password" id="admin-pass" placeholder="Enter Access Key (e.g. lunar2026)" value="lunar2026" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
-                        </div>
-                        <button type="submit" class="admin-login-btn">Enter Portal</button>
-                        <p style="margin-top: 15px; font-size: 0.85rem;">Need to register? <a href="#" onclick="event.preventDefault(); toggleAdminAuth()" class="toggle-link">Create Account</a></p>
-                        <p style="margin-top: 5px; font-size: 0.85rem;"><a href="index.html" style="color: #555; text-decoration: none;">&larr; Back to Guest Site</a></p>
-                    </form>
+<body>
+    <div id="admin-auth-panel" class="auth-modal" style="display: flex;">
+        <div class="auth-overlay" onclick="closeAdminLogin()"></div>
+        <div class="auth-card" style="max-width: 440px;">
+            <div class="auth-header">
+                <div class="brand-logo center">
+                    <span class="logo-title">LUNAR</span>
+                    <span class="logo-subtitle">ADMIN ACCESS</span>
                 </div>
+            </div>
 
-                <!-- Register Form -->
-                <div class="admin-auth-form">
-                    <div style="margin-bottom: 12px;">
-                        <span style="color: #D4AF37; font-size: 1.8rem; font-weight: 700; font-family: 'Cinzel', serif;">LUNAR</span>
+            <div class="auth-form" style="display: block; width: 100%;">
+                <h3>Department Login</h3>
+                <p class="auth-sub">Managers and senior leaders can access every department. Department staff are restricted to their assigned areas.</p>
+
+                <form onsubmit="loginAdmin(event)">
+                    <div class="auth-field-group">
+                        <label for="admin-email">Work Email</label>
+                        <input type="email" id="admin-email" placeholder="name@lunar.com" required>
                     </div>
-                    <h3 style="margin: 0 0 6px 0;">Admin Registration</h3>
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 18px;">Create a new department management profile.</p>
-                    <form onsubmit="adminRegister(event)">
-                        <div class="form-group" style="text-align: left;">
-                            <label for="admin-reg-name">Full Name</label>
-                            <input type="text" id="admin-reg-name" placeholder="Manager Name" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+
+                    <div class="auth-field-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="auth-field-group">
+                        <label>Demo access</label>
+                        <div class="admin-demo-list">
+                            <small>manager@lunar.com / Manager@2026</small>
+                            <small>director@lunar.com / Director@2026</small>
+                            <small>accomodation@lunar.com / Accomodation@2026</small>
+                            <small>dining@lunar.com / Dining@2026</small>
+                            <small>wellness@lunar.com / Wellness@2026</small>
+                            <small>experiences@lunar.com / Experiences@2026</small>
+                            <small>events@lunar.com / Events@2026</small>
                         </div>
-                        <div class="form-group" style="text-align: left;">
-                            <label for="admin-reg-role">Department</label>
-                            <select id="admin-reg-role" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
-                                <option value="hotel">Hotel &amp; Poshtel Accommodations</option>
-                                <option value="restaurant">Restaurant &amp; Bar</option>
-                                <option value="spa">Wellness &amp; Spa</option>
-                                <option value="events">Meetings &amp; Events</option>
-                                <option value="travels">Travels &amp; Activities</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="text-align: left;">
-                            <label for="admin-reg-pass">Access Key</label>
-                            <input type="password" id="admin-reg-pass" placeholder="Create a strong key" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
-                        </div>
-                        <button type="submit" class="admin-login-btn">Create Profile</button>
-                        <p style="margin-top: 15px; font-size: 0.85rem;">Already have access? <a href="#" onclick="event.preventDefault(); toggleAdminAuth()" class="toggle-link">Enter Portal</a></p>
-                    </form>
-                </div>
+                    </div>
+
+                    <button type="submit" class="btn-gold full-width auth-submit">Enter Department</button>
+                </form>
+                <p id="admin-login-message" class="admin-login-message" aria-live="polite"></p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- ADMIN MANAGEMENT DASHBOARD -->
-    <section id="admin-dashboard" style="display: none;">
-        <header class="admin-header">
-            <div class="admin-identity">
-                <div class="brand-icon-wrap" style="width: 38px; height: 38px; margin-right: 14px; background: rgba(212, 175, 55, 0.2); border: 1px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <svg class="brand-icon-svg" style="width: 22px; height: 22px; fill: #D4AF37;" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.82 0 3.53-.5 5-1.35-2.99-1.73-5-4.95-5-8.65s2.01-6.92 5-8.65C15.53 2.5 13.82 2 12 2z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h2 id="admin-welcome-text" style="font-size: 1.25rem; margin: 0; color: #fff;">Hi, Manager</h2>
-                    <span id="admin-dept-tag" style="font-size: 0.85rem; color: #D4AF37; font-weight: 600;">Department Portal</span>
-                </div>
+    <div class="admin-layout" style="display: none;">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand" onclick="window.location.href='index.html'">
+                <span class="logo-title">LUNAR</span>
+                <span class="logo-subtitle">ADMIN CONSOLE</span>
             </div>
 
-            <div class="admin-profile-area" style="display: flex; align-items: center; gap: 15px;">
-                <a href="index.html" class="exit-btn" target="_self" style="text-decoration: none; font-size: 13px;">View Guest Site</a>
-                <div id="admin-profile-icon" class="admin-profile-icon" onclick="toggleProfileDropdown()" style="display: flex; align-items: center; justify-content: center; background: #D4AF37; color: #0B0D12; font-weight: 800; font-size: 14px; cursor: pointer;">
-                    MG
+            <nav class="sidebar-menu">
+                <button class="nav-item active" data-tab="accomodation" onclick="switchAdminTab(event, 'accomodation')">
+                    <span class="icon">🏨</span> Accomodation
+                </button>
+                <button class="nav-item" data-tab="dining" onclick="switchAdminTab(event, 'dining')">
+                    <span class="icon">🍽️</span> Dining
+                </button>
+                <button class="nav-item" data-tab="wellness" onclick="switchAdminTab(event, 'wellness')">
+                    <span class="icon">🧖</span> Wellness
+                </button>
+                <button class="nav-item" data-tab="experiences" onclick="switchAdminTab(event, 'experiences')">
+                    <span class="icon">🌄</span> Experiences
+                </button>
+                <button class="nav-item" data-tab="events" onclick="switchAdminTab(event, 'events')">
+                    <span class="icon">🎉</span> Events
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="admin-profile">
+                    <span class="admin-name">Concierge Admin</span>
+                    <span class="admin-role">Department Access</span>
                 </div>
-                <div id="admin-profile-dropdown" class="admin-profile-dropdown">
-                    <a href="index.html" target="_self">Exit to Guest Site</a>
-                    <a href="#" onclick="adminLogout(event)">Log Out</a>
+                <button class="btn-outline-gold full-width" onclick="logoutAdmin()">Logout</button>
+                <button class="btn-outline-gold full-width" style="margin-top: 10px;" onclick="window.location.href='index.html'">View Front Desk</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1 id="page-title">Accommodation Department</h1>
+                    <span class="header-sub">Real-Time Luxury Resort Metrics &amp; Operations</span>
+                </div>
+                <div class="header-right">
+                    <span class="status-badge live-status"><span class="pulse-dot"></span> System Live</span>
+                    <button class="btn-gold" onclick="triggerQuickReservation()">+ Manual Reservation</button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- TAB 1: ACCOMODATION -->
+                <div id="tab-accomodation" class="admin-tab-content active">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-label">Total Revenue (MTD)</span>
+                            <span class="metric-value" id="total-revenue">KSh 14,850,000</span>
+                            <span class="metric-trend positive">+14.2% vs last month</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Resort Occupancy</span>
+                            <span class="metric-value" id="occupancy-rate">88.4%</span>
+                            <span class="metric-trend positive">53 / 60 Suites Reserved</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Active Guest Arrivals</span>
+                            <span class="metric-value" id="active-arrivals">12</span>
+                            <span class="metric-trend">Scheduled for Today</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Pending Experiences</span>
+                            <span class="metric-value" id="pending-services">28</span>
+                            <span class="metric-trend warning">Requires Dispatch</span>
+                        </div>
+                    </div>
+
+                    <div class="admin-table-container">
+                        <div class="table-header">
+                            <h3>Live Booking Queue</h3>
+                            <button class="btn-dark-sm" onclick="exportCSV('reservations-table')">Export CSV</button>
+                        </div>
+                        <table id="reservations-table" class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Ref ID</th>
+                                    <th>Guest Name</th>
+                                    <th>Suite / Service</th>
+                                    <th>Dates / Time</th>
+                                    <th>Payment</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-recent-bookings"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: DINING -->
+                <div id="tab-dining" class="admin-tab-content">
+                    <div class="admin-table-container">
+                        <div class="table-header">
+                            <h3>Dining &amp; Lounge Reservations</h3>
+                            <div class="table-filters">
+                                <input type="text" id="search-reservations" placeholder="Search by name, reference..." onkeyup="filterReservations()">
+                                <select id="filter-status" onchange="filterReservations()">
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Deposit Paid">Deposit Paid</option>
+                                    <option value="Checked In">Checked In</option>
+                                </select>
+                            </div>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Ref ID</th>
+                                    <th>Guest Name</th>
+                                    <th>Service Category</th>
+                                    <th>Plan</th>
+                                    <th>Total Fee</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-all-reservations"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: WELLNESS -->
+                <div id="tab-wellness" class="admin-tab-content">
+                    <div class="inventory-grid" id="inventory-container"></div>
+                </div>
+
+                <!-- TAB 4: EXPERIENCES -->
+                <div id="tab-experiences" class="admin-tab-content">
+                    <div class="admin-table-container">
+                        <div class="table-header">
+                            <h3>Registered VIP Members</h3>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>VIP Tier</th>
+                                    <th>Full Name</th>
+                                    <th>Email Address</th>
+                                    <th>Total Stays</th>
+                                    <th>Lifetime Spend</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-guests"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 5: EVENTS -->
+                <div id="tab-events" class="admin-tab-content">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-label">Accommodations RevPAR</span>
+                            <span class="metric-value">KSh 42,100</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Spa &amp; Wellness Revenue</span>
+                            <span class="metric-value">KSh 2,450,000</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Dining &amp; Lounge Sales</span>
+                            <span class="metric-value">KSh 3,890,000</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </header>
+        </main>
+    </div>
 
-        <div class="admin-main-layout">
-            <aside class="admin-sidebar">
-                <button id="sidebar-dashboard-home" onclick="showAdminTab('dashboard-home')">Dashboard Overview</button>
-                <button id="sidebar-bookings" onclick="showAdminTab('bookings')">Accommodations</button>
-                <button id="sidebar-checkout" onclick="showAdminTab('checkout')">Room Inspection Status</button>
-                <button id="sidebar-restaurant" onclick="showAdminTab('restaurant')">Restaurant Orders</button>
-                <button id="sidebar-spa" onclick="showAdminTab('spa')">Spa Appointments</button>
-                <button id="sidebar-events" onclick="showAdminTab('events')">Event Bookings</button>
-                <button id="sidebar-premium-travels" onclick="showAdminTab('premium-travels')">Flights &amp; Safaris</button>
-                <button id="sidebar-resort-activities" onclick="showAdminTab('resort-activities')">Resort Activities</button>
-                <button id="sidebar-reviews" onclick="showAdminTab('reviews')">Guest Feedback</button>
-            </aside>
+    <script src="script.js"></script>
+</body>
 
-            <main class="admin-content">
-                <!-- METRICS STRIP -->
-                <div class="admin-metrics-row">
-                    <div class="admin-metric-card">
-                        <div class="admin-metric-label">Active Reservations</div>
-                        <div class="admin-metric-value" id="admin-metric-count">0</div>
-                        <div class="admin-metric-sub">Across All 5 Departments</div>
-                    </div>
-                    <div class="admin-metric-card">
-                        <div class="admin-metric-label">Gross Revenue Collected</div>
-                        <div class="admin-metric-value" id="admin-metric-rev" style="color: #27ae60;">KSh 0.00</div>
-                        <div class="admin-metric-sub">Verified in Real-Time</div>
-                    </div>
-                    <div class="admin-metric-card">
-                        <div class="admin-metric-label">Resort Occupancy</div>
-                        <div class="admin-metric-value" style="color: #2980b9;">96%</div>
-                        <div class="admin-metric-sub">Pods &amp; Luxury Suites</div>
-                    </div>
-                    <div class="admin-metric-card">
-                        <div class="admin-metric-label">Pending Action Items</div>
-                        <div class="admin-metric-value" id="admin-metric-pending" style="color: #e67e22;">0</div>
-                        <div class="admin-metric-sub">Awaiting Check-in / Review</div>
-                    </div>
-                </div>
-
-                <!-- 1. DASHBOARD OVERVIEW HOME TAB -->
-                <div id="dashboard-home-tab" class="tab-pane" style="display:block;">
-                    <div style="background: rgba(0,0,0,0.6); padding: 40px; border-radius: 14px; max-width: 700px; margin: 0 auto; backdrop-filter: blur(6px);">
-                        <h2 style="font-size: 2.2rem; margin-bottom: 12px; color: #fff;">LUNAR Operations Central</h2>
-                        <p style="font-size: 1.1rem; color: #E0E0E0; line-height: 1.6; margin-bottom: 25px;">
-                            Manage 5-star hostel pods, designer suites, fine dining, spa sessions, coastal safaris, and galas with unified local database synchrony.
-                        </p>
-                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                            <button class="nav-btn-gold" onclick="showAdminTab('bookings')">View Accommodations</button>
-                            <button class="filter-pill" style="background: rgba(255,255,255,0.15); color: #fff;" onclick="showAdminTab('checkout')">Room Inspection Status</button>
-                            <button class="filter-pill" style="background: rgba(255,255,255,0.15); color: #fff;" onclick="showAdminTab('reviews')">Review Feedback</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. HOTEL & PODS TAB -->
-                <div id="bookings-tab" class="tab-pane" style="display:none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h3 style="margin: 0;">Accommodations &amp; Pod Bookings</h3>
-                        <button class="filter-pill" onclick="renderAdminTables()">Refresh List</button>
-                    </div>
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Guest</th>
-                                <th>Accommodation</th>
-                                <th>Dates / Duration</th>
-                                <th>Payment Method</th>
-                                <th>Plan</th>
-                                <th>Amount Paid</th>
-                                <th>Balance Due</th>
-                                <th>Status &amp; Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="hotel-booking-list">
-                            <!-- Injected via JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 3. ROOM INSPECTION TAB -->
-                <div id="checkout-tab" class="tab-pane" style="display:none;">
-                    <h3>Verify Room &amp; Pod Inspection Status</h3>
-                    <p style="color: #666; margin-bottom: 25px;">Ensure 5-star sanitization standards before issuing digital keycards to incoming guests.</p>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                        <div class="admin-metric-card" style="border-left: 4px solid #27ae60;">
-                            <h4>Pod 101: Celestial Capsule</h4>
-                            <p style="font-size: 13px; color: #666;">Status: Cleaned &bull; Memory foam sanitized &bull; Starlink verified</p>
-                            <button class="approve-btn" style="width: 100%; margin-top: 10px;" onclick="adminVerifyRoom('Pod 101')">Verify for Check-in</button>
-                        </div>
-
-                        <div class="admin-metric-card" style="border-left: 4px solid #27ae60;">
-                            <h4>Chamber 104: Social Atelier</h4>
-                            <p style="font-size: 13px; color: #666;">Status: Cleaned &bull; Rain showers inspected &bull; Linens fresh</p>
-                            <button class="approve-btn" style="width: 100%; margin-top: 10px;" onclick="adminVerifyRoom('Chamber 104')">Verify for Check-in</button>
-                        </div>
-
-                        <div class="admin-metric-card" style="border-left: 4px solid #e67e22;">
-                            <h4>Suite 204: Deluxe Ocean</h4>
-                            <p style="font-size: 13px; color: #666;">Status: Housekeeping in progress &bull; Turndown scheduled</p>
-                            <button class="approve-btn" style="width: 100%; margin-top: 10px;" onclick="adminVerifyRoom('Suite 204')">Verify for Check-in</button>
-                        </div>
-
-                        <div class="admin-metric-card" style="border-left: 4px solid #27ae60;">
-                            <h4>Villa 301: Presidential</h4>
-                            <p style="font-size: 13px; color: #666;">Status: Heated Jacuzzi 38°C &bull; Champagne iced &bull; Chauffeur alerted</p>
-                            <button class="approve-btn" style="width: 100%; margin-top: 10px;" onclick="adminVerifyRoom('Villa 301')">Verify for Check-in</button>
-                        </div>
-
-                        <div class="admin-metric-card" style="border-left: 4px solid #27ae60;">
-                            <h4>Penthouse 401: The Lunar Penthouse</h4>
-                            <p style="font-size: 13px; color: #666;">Status: Private Infinity Pool sanitized &bull; Master Chef briefed</p>
-                            <button class="approve-btn" style="width: 100%; margin-top: 10px;" onclick="adminVerifyRoom('Penthouse 401')">Verify for Check-in</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. RESTAURANT TAB -->
-                <div id="restaurant-tab" class="tab-pane" style="display:none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h3 style="margin: 0;">Restaurant &amp; Bar Reservations</h3>
-                        <button class="filter-pill" onclick="renderAdminTables()">Refresh List</button>
-                    </div>
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Guest</th>
-                                <th>Table / Service</th>
-                                <th>Scheduled Date &amp; Time</th>
-                                <th>Payment Method</th>
-                                <th>Amount Paid</th>
-                                <th>Status &amp; Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="restaurant-booking-list">
-                            <!-- Injected via JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 5. SPA APPOINTMENTS TAB -->
-                <div id="spa-tab" class="tab-pane" style="display:none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h3 style="margin: 0;">Wellness &amp; Spa Appointments</h3>
-                        <button class="filter-pill" onclick="renderAdminTables()">Refresh List</button>
-                    </div>
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Guest</th>
-                                <th>Treatment Session</th>
-                                <th>Therapist</th>
-                                <th>Date &amp; Time</th>
-                                <th>Payment Method</th>
-                                <th>Amount Paid</th>
-                                <th>Status &amp; Actions</th>
-                            </tr>
-                        </thead>
                         <tbody id="spa-booking-list">
                             <!-- Injected via JavaScript -->
                         </tbody>
