@@ -474,47 +474,102 @@
         </div>
     </section>
 
-    <!-- AUTHENTICATION CONTAINER -->
-    <div id="Auth" class="tab-content" style="display: none;">
-        <div class="auth-overlay" onclick="closeAuthModal()"></div>
-        <div class="auth-wrapper">
-            <div class="auth-container" id="sliding-box">
-                <div class="auth-form">
-                    <h3>Join LUNAR Sanctuary</h3>
-                    <p>Create an account to manage your reservations and exclusive privileges.</p>
-                    <form onsubmit="registerUser(event)">
-                        <div class="form-group">
-                            <label for="reg-name">Full Name</label>
-                            <input type="text" id="reg-name" name="reg-name" placeholder="John Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-email">Email Address</label>
-                            <input type="email" id="reg-email" name="reg-email" placeholder="name@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-password">Password</label>
-                            <input type="password" id="reg-password" name="reg-password" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit" class="btn-gold full-width">Create VIP Account</button>
-                        <p class="auth-switch-text">Already a guest? <a href="javascript:void(0)" onclick="toggleAuth('login')" class="toggle-link">Sign In</a></p>
-                    </form>
-                </div>
+    <!-- SIGN-IN REQUIRED POPUP -->
+    <div id="signin-required-modal" class="signin-required-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="signin-required-title">
+        <div class="signin-required-overlay" onclick="closeSignInRequiredModal()"></div>
+        <div class="signin-required-card">
+            <button type="button" class="signin-required-close" onclick="closeSignInRequiredModal()" aria-label="Close sign-in message">&times;</button>
+            <div class="signin-required-crest">L</div>
+            <span class="signin-required-kicker">LUNAR PRIVATE ACCESS</span>
+            <h2 id="signin-required-title">Sign in to continue</h2>
+            <div class="signin-required-rule"></div>
+            <p id="signin-required-popup-message">Please sign in to make a booking.</p>
+            <div class="signin-required-actions">
+                <button type="button" class="btn-outline-gold" onclick="closeSignInRequiredModal()">Continue Browsing</button>
+                <button type="button" class="btn-gold" onclick="continueToSignIn()">Sign In</button>
+            </div>
+        </div>
+    </div>
 
-                <div class="auth-form">
-                    <h3>Welcome Back</h3>
-                    <p>Sign in to access your LUNAR guest account and stays.</p>
-                    <form onsubmit="loginUser(event)">
-                        <div class="form-group">
-                            <label for="login-email">Email Address</label>
-                            <input type="email" id="login-email" name="login-email" placeholder="name@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input type="password" id="login-password" name="login-password" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit" class="btn-gold full-width">Sign In</button>
-                        <p class="auth-switch-text">New to LUNAR? <a href="javascript:void(0)" onclick="toggleAuth('register')" class="toggle-link">Register Here</a></p>
-                    </form>
+    <!-- AUTHENTICATION MODAL -->
+    <div id="Auth" class="auth-modal" style="display: none;">
+        <div class="auth-overlay" onclick="closeAuthModal()"></div>
+        
+        <button type="button" class="auth-close-btn" onclick="closeAuthModal()" aria-label="Exit sign in or signup">X</button>
+
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="brand-logo center">
+                    <span class="logo-title">LUNAR</span>
+                    <span class="logo-subtitle">RESORT & SPA</span>
+                </div>
+            </div>
+
+            <div id="signin-required-notice" class="signin-required-notice" role="status" aria-live="polite" hidden>
+                <div class="signin-notice-mark">L</div>
+                <div class="signin-notice-copy">
+                    <span class="signin-notice-eyebrow">PRIVATE ACCESS</span>
+                    <strong>Sign in required</strong>
+                    <span id="signin-required-message">Please sign in to continue.</span>
+                </div>
+                <button type="button" class="signin-notice-dismiss" onclick="hideSignInPrompt()" aria-label="Dismiss sign-in notice">&times;</button>
+            </div>
+
+            <!-- TAB SWITCHER -->
+            <div class="auth-tabs">
+                <button type="button" id="tab-auth-register" class="auth-tab-btn" onclick="toggleAuth('register')">Register</button>
+                <button type="button" id="tab-auth-login" class="auth-tab-btn active" onclick="toggleAuth('login')">Sign In</button>
+            </div>
+
+            <!-- SLIDING CONTAINER -->
+            <div class="auth-viewport">
+                <div class="auth-container slide-active" id="sliding-box">
+                    
+                    <!-- REGISTER FORM -->
+                    <div class="auth-form">
+                        <h3>Join LUNAR Sanctuary</h3>
+                        <p class="auth-sub">Create an account to manage your privileges and stays.</p>
+                        
+                        <form onsubmit="registerUser(event)">
+                            <div class="auth-field-group">
+                                <label for="reg-name">Full Name</label>
+                                <input type="text" id="reg-name" name="reg-name" placeholder="John Doe" required>
+                            </div>
+
+                            <div class="auth-field-group">
+                                <label for="reg-email">Email Address</label>
+                                <input type="email" id="reg-email" name="reg-email" placeholder="name@example.com" required>
+                            </div>
+
+                            <div class="auth-field-group">
+                                <label for="reg-password">Password</label>
+                                <input type="password" id="reg-password" name="reg-password" placeholder="••••••••" required>
+                            </div>
+
+                            <button type="submit" class="btn-gold full-width auth-submit">Create VIP Account</button>
+                        </form>
+                    </div>
+
+                    <!-- SIGN IN FORM -->
+                    <div class="auth-form">
+                        <h3>Welcome Back</h3>
+                        <p class="auth-sub">Sign in to access your luxury itinerary and concierge service.</p>
+
+                        <form onsubmit="loginUser(event)">
+                            <div class="auth-field-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" name="login-email" placeholder="name@example.com" required>
+                            </div>
+
+                            <div class="auth-field-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" name="login-password" placeholder="••••••••" required>
+                            </div>
+
+                            <button type="submit" class="btn-gold full-width auth-submit">Sign In</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -552,6 +607,17 @@
 
     <!-- FULL-PAGE HOTEL SHOWCASE VIEW -->
     <div id="hotel-fullpage-view" class="hotel-fullpage" style="display: none;">
+        <header class="fp-nav">
+            <button type="button" class="fp-back-btn" onclick="closeHotelDetailPage()">
+                &#8592; <span>Back to Accommodations</span>
+            </button>
+            <div class="fp-nav-brand">
+                <span class="fp-brand-title">LUNAR RESORT</span>
+                <span class="fp-brand-sub">Accommodations & Suites</span>
+            </div>
+            <button type="button" class="fp-close-btn" onclick="closeHotelDetailPage()" title="Close">&times;</button>
+        </header>
+
         <main class="fp-content">
             <section class="fp-room-header">
                 <div class="fp-header-left">
@@ -694,6 +760,17 @@
 
     <!-- UNIVERSAL SHOWCASE VIEW -->
     <div id="universal-fullpage-view" class="hotel-fullpage" style="display: none;">
+        <header class="fp-nav">
+            <button type="button" class="fp-back-btn" onclick="closeUniversalDetailPage()">
+                &#8592; <span>Back to Services</span>
+            </button>
+            <div class="fp-nav-brand">
+                <span class="fp-brand-title">LUNAR RESORT</span>
+                <span class="fp-brand-sub" id="univ-fp-dept-tag">Service Booking</span>
+            </div>
+            <button type="button" class="fp-close-btn" onclick="closeUniversalDetailPage()" title="Close">&times;</button>
+        </header>
+
         <main class="fp-content">
             <section class="fp-room-header">
                 <div class="fp-header-left">

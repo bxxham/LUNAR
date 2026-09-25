@@ -39,8 +39,10 @@ function showServices(tabName) {
 
 function openAuth(evt, mode) {
     if (evt) evt.preventDefault();
+    closeSignInRequiredModal();
     const authSection = document.getElementById('Auth');
     if (authSection) authSection.style.display = 'flex';
+    hideSignInPrompt();
     toggleAuth(mode);
 }
 
@@ -51,11 +53,57 @@ function closeAuthModal() {
 
 function toggleAuth(mode) {
     const box = document.getElementById('sliding-box');
+    const loginTab = document.getElementById('tab-auth-login');
+    const registerTab = document.getElementById('tab-auth-register');
+
     if (mode === 'login') {
         box.classList.add('slide-active');
+        if (loginTab) loginTab.classList.add('active');
+        if (registerTab) registerTab.classList.remove('active');
     } else {
         box.classList.remove('slide-active');
+        if (registerTab) registerTab.classList.add('active');
+        if (loginTab) loginTab.classList.remove('active');
     }
+}
+
+function showSignInPrompt(actionLabel) {
+    const notice = document.getElementById('signin-required-notice');
+    const message = document.getElementById('signin-required-message');
+    if (!notice || !message) return;
+
+    message.innerText = `Please sign in to ${actionLabel}.`;
+    notice.hidden = false;
+}
+
+function hideSignInPrompt() {
+    const notice = document.getElementById('signin-required-notice');
+    if (notice) notice.hidden = true;
+}
+
+function showSignInRequiredModal(actionLabel) {
+    const modal = document.getElementById('signin-required-modal');
+    const message = document.getElementById('signin-required-popup-message');
+    if (!modal || !message) return;
+
+    modal.dataset.actionLabel = actionLabel;
+    message.innerText = `Please sign in to ${actionLabel}.`;
+    modal.style.display = 'flex';
+}
+
+function closeSignInRequiredModal() {
+    const modal = document.getElementById('signin-required-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+function continueToSignIn() {
+    const modal = document.getElementById('signin-required-modal');
+    closeSignInRequiredModal();
+    openAuth(null, 'login');
+    window.requestAnimationFrame(() => {
+        const emailInput = document.getElementById('login-email');
+        if (emailInput) emailInput.focus();
+    });
 }
 
 // --- 2. USER AUTHENTICATION & SESSION PERSISTENCE ---
@@ -77,7 +125,7 @@ function registerUser(event) {
     localStorage.setItem("currentUser", JSON.stringify(user));
     closeAuthModal();
     updatePostLoginUI();
-    alert(`Welcome to LUNAR Sanctuary, ${name}. Your account is activated.`);
+    alert(`Welcome to LUNAR Sanctuary, ${name}. Your VIP account is activated.`);
 }
 
 function updatePostLoginUI() {
@@ -109,8 +157,7 @@ function logoutUser(event) {
 function ensureSignedIn(actionLabel = 'make a booking') {
     const isSignedIn = !!localStorage.getItem('currentUser');
     if (!isSignedIn) {
-        openAuth(null, 'login');
-        alert(`Please sign in to ${actionLabel}.`);
+        showSignInRequiredModal(actionLabel);
         return false;
     }
     return true;
@@ -189,16 +236,14 @@ const LUNAR_SERVICES = {
     'team-building': { id: 'team-building', title: 'Team Building Retreat', category: 'Experiences', tagline: 'Leadership and collaboration adventures', price: 18500, period: '/ Session', img: 'images/teambuilding.jpg', desc: 'Collaborative adventure challenges, leadership drills, and strategy sessions hosted in a luxury camp environment.' },
     'swimming': { id: 'swimming', title: 'Private Pool & Swimming', category: 'Experiences', tagline: 'Aqua wellness and private sessions', price: 4600, period: '/ Hour', img: 'images/swimming.jpg', desc: 'Sunlit infinity pool access with private coaching, relaxation zones, and wellness-focused aqua sessions.' },
     'hot-air-balloon': { id: 'hot-air-balloon', title: 'Hot Air Balloon Safari', category: 'Experiences', tagline: 'Sunrise flights over beautiful terrain', price: 42000, period: '/ Flight', img: 'images/hotairballoon.jpg', desc: 'Sunrise balloon journeys above the coastline and open savannah with a luxury champagne breakfast follow-up.' },
-    'ballroom': { id: 'ballroom', title: 'Amethyst Grand Ballroom', category: 'Events & Galas', tagline: 'Grand galas, banquets, and weddings', price: 325000, period: '/ Day', img: 'images/ballroom.jpg', desc: 'Pillarless ballroom accommodating up to 1000 guests.' },
-    'boardroom': { id: 'boardroom', title: 'Executive Boardroom Suite', category: 'Events & Galas', tagline: 'Confidential strategy meetings', price: 78000, period: '/ Day', img: 'images/boardroom.jpg', desc: '4K video conferencing and secretarial support for 20.' }
+    'ballroom': { id: 'ballroom', title: 'Amethyst Grand Ballroom', category: 'Events & Galas', tagline: 'Grand galas, banquets, and weddings', price: 325000, period: '/ Day', img: 'images/ballroom2.jpg', desc: 'Pillarless ballroom accommodating up to 1000 guests.' },
+    'boardroom': { id: 'boardroom', title: 'Executive Boardroom Suite', category: 'Events & Galas', tagline: 'Confidential strategy meetings', price: 78000, period: '/ Day', img: 'images/boardroom3.jpg', desc: '4K video conferencing and secretarial support for 20.' }
 };
 
 let currentUnivService = null;
 let currentUnivBooking = { paymentType: 'Deposit', paymentMethod: 'M-Pesa' };
 
 function openServiceDetailPage(serviceId, defaultPaymentType) {
-    if (!ensureSignedIn('make a reservation')) return;
-
     const service = LUNAR_SERVICES[serviceId];
     if (!service) return;
 
@@ -302,7 +347,7 @@ function handleEventFormSubmit(event) {
         tagline: `Custom event setup for ${guestCount} guests`,
         price: calculatedPrice,
         period: '/ Package',
-        img: 'images/ballroom.jpg',
+        img: 'images/ballroom2.jpg',
         desc: `Custom banquet setup including full AV technology, catering, and venue access for ${guestCount} guests.`
     };
 
@@ -486,7 +531,6 @@ function renderCalendar(targetInputId, year, month) {
 
     const safeYear = Number(year) || new Date().getFullYear();
     const safeMonth = Number(month) || new Date().getMonth();
-    const input = document.getElementById(targetInputId);
     const selectedIso = getIsoDateValue(targetInputId) || `${new Date().toISOString().split('T')[0]}T12:00`;
     const selectedDate = getDateTimeParts(selectedIso);
     const monthStart = new Date(safeYear, safeMonth, 1);
@@ -591,8 +635,6 @@ function handleCalendarNavigation(button) {
 }
 
 function openHotelDetailPage(roomId, defaultPaymentType) {
-    if (!ensureSignedIn('make a reservation')) return;
-
     const room = HOTEL_ROOMS[roomId] || HOTEL_ROOMS['superior'];
     currentHotelRoom = room;
 
